@@ -1,0 +1,45 @@
+{
+  "name": "buzzy_back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "author": "Hyeonseop-Noh",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1145.0",
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "password-validator": "^5.2.1",
+    "request": "^2.88.2",
+    "sequelize": "^6.19.0",
+    "sequelize-auto": "^0.8.8",
+    "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.17.10",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/register": "^7.0.0",
+    "@cloudflare/workers-types": "^3.11.0",
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
