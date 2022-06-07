@@ -9,7 +9,6 @@ export default class GroupService {
       userNumber: 1,
       groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
     });
-    const userRecord = await db.User.findByPk(userId);
     await groupRecord.addUser(userId, { through: "UserGroups" });
     return groupRecord;
   }
@@ -54,8 +53,7 @@ export default class GroupService {
     if (!groupRecord) {
       throw new Error("Group not found!");
     }
-    const userRecord = await db.User.findByPk(userId);
-    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+    await groupRecord.addUser(userId, { through: "UserGroups" });
     groupRecord.increment("userNumber");
     return groupRecord;
   }
