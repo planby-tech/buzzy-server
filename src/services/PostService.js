@@ -1,3 +1,5 @@
+import fs from "fs";
+import AWS from "aws-sdk";
 import db from "../db/models/index.js";
 
 const isEqual = (a, b) => {
@@ -9,6 +11,26 @@ const isEqual = (a, b) => {
     if (aCount !== bCount) return false;
   }
   return true;
+};
+
+const s3 = new AWS.S3({
+  accessKeyId: "AKIA6RRZGFJNWDBIIDUF",
+  secretAccessKey: "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",
+});
+
+const uploadFile = (fileName, postId) => {
+  fs.readFile(fileName, (err, data) => {
+    if (err) throw err;
+    const params = {
+      Bucket: "buzzy-bucket", // pass your bucket name
+      Key: `${postId}/${fileName}`, // file will be saved as testBucket/contacts.csv
+      Body: JSON.stringify(data, null, 2),
+    };
+    s3.upload(params, (s3Err, data) => {
+      if (s3Err) throw s3Err;
+      return data.Location;
+    });
+  });
 };
 
 export default class PostService {
@@ -35,8 +57,9 @@ export default class PostService {
     }
 
     for await (const image of postDTO.images) {
+      const url = uploadFile(image, postId);
       await db.Image.create({
-        url: image,
+        url: url,
       }).then((image) => {
         postRecord.addImage(image);
         userRecord.addImage(image);
