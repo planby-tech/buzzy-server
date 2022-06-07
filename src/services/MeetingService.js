@@ -30,14 +30,8 @@ export default class MeetingService {
         meetingRecord.addPlace(place);
       });
     }
-    for await (const user of meetingDTO.users) {
-      const userRecord = await db.User.findByPk(user);
-      await meetingRecord.addUser(userRecord);
-    }
-    for await (const activity of meetingDTO.activities) {
-      const activityRecord = await db.Activity.findByPk(activity);
-      await meetingRecord.addActivity(activityRecord);
-    }
+    await meetingRecord.addUsers(meetingDTO.users);
+    await meetingRecord.addActivities(meetingDTO.activities);
 
     return meetingRecord;
   }
@@ -102,13 +96,8 @@ export default class MeetingService {
       userRecord.push(users[i].id);
     }
     if (!isEqual(userRecord, meetingDTO.users)) {
-      for await (const user of users) {
-        await meetingRecord.removeUser(user);
-      }
-      for await (const user of meetingDTO.users) {
-        const updatedUser = await db.User.findByPk(user);
-        await meetingRecord.addUser(updatedUser);
-      }
+      await meetingRecord.removeUsers(userRecord);
+      await meetingRecord.addUsers(meetingDTO.users);
     }
 
     const activities = await meetingRecord.getActivities();
@@ -117,13 +106,8 @@ export default class MeetingService {
       activityRecord.push(activities[i].id);
     }
     if (!isEqual(activityRecord, meetingDTO.activities)) {
-      for await (const activity of activities) {
-        await meetingRecord.removeActivity(activity);
-      }
-      for await (const activity of meetingDTO.activities) {
-        const updatedActivity = db.Activity.findByPk(activity);
-        await meetingRecord.addActivity(updatedActivity);
-      }
+      await meetingRecord.removeActivities(activityRecord);
+      await meetingRecord.addActivities(meetingDTO.activities);
     }
 
     return meetingRecord;
