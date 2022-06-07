@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
+import "dotenv/config";
 import { ip } from "./constants/url.js";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
@@ -19,8 +20,9 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const PORT = process.env.PORT || 8000;
+const IP = process.env.IP || "http://localhost";
 let corsOptions = {
-  origin: ip + ":" + PORT,
+  origin: IP + ":" + PORT,
 };
 
 app.use(cors(corsOptions));

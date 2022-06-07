@@ -1,23 +1,25 @@
+import "dotenv/config";
+
 const development = {
-  username: "admin",
-  password: "dQNyUsogNb5s65h1Te3y",
-  database: "database_development",
-  host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-  dialect: "mysql",
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  host: process.env.MYSQL_HOST,
+  dialect: process.env.MYSQL_DIALECT,
 };
 const test = {
-  username: "admin",
-  password: "dQNyUsogNb5s65h1Te3y",
-  database: "database_test",
-  host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-  dialect: "mysql",
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE_TEST,
+  host: process.env.MYSQL_HOST,
+  dialect: process.env.MYSQL_DIALECT,
 };
 const production = {
-  username: "admin",
-  password: "dQNyUsogNb5s65h1Te3y",
-  database: "database_production",
-  host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-  dialect: "mysql",
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE_PRODUCTION,
+  host: process.env.MYSQL_HOST,
+  dialect: process.env.MYSQL_DIALECT,
 };
 
 const database = {
