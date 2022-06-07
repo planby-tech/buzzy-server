@@ -3,7 +3,6 @@ import {
   readUser,
   updateUser,
   deleteUser,
-  joinGroup,
   findGroups,
   findMeetings,
 } from "../controllers/UserController.js";
@@ -22,8 +21,6 @@ export default (app) => {
   app.put("/users/:userId", [authJwt.verifyToken], updateUser);
 
   app.delete("/users/:userId", [authJwt.verifyToken], deleteUser);
-
-  app.post("/users/:userId/groups", [authJwt.verifyToken], joinGroup);
 
   app.get("/users/:userId/groups", [authJwt.verifyToken], findGroups);
 

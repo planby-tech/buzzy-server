@@ -47,22 +47,6 @@ const deleteUser = (req, res) => {
     });
 };
 
-const joinGroup = (req, res) => {
-  const userId = req.params.userId;
-  const groupCode = req.body.groupCode;
-  user
-    .joinGroup(userId, groupCode)
-    .then((group) => {
-      res.json({
-        message: "User was joined to group successfully!",
-        group: group,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
-};
-
 const findGroups = (req, res) => {
   const userId = req.params.userId;
   user
@@ -87,11 +71,4 @@ const findMeetings = (req, res) => {
     });
 };
 
-export {
-  readUser,
-  updateUser,
-  deleteUser,
-  joinGroup,
-  findGroups,
-  findMeetings,
-};
+export { readUser, updateUser, deleteUser, findGroups, findMeetings };

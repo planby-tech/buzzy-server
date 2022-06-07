@@ -29,20 +29,6 @@ export default class UserService {
     return;
   }
 
-  async joinGroup(userId, groupCode) {
-    const groupRecord = await db.Group.findOne({
-      where: {
-        groupCode: groupCode,
-      },
-    });
-    if (!groupRecord) {
-      throw new Error("Group not found!");
-    }
-    await groupRecord.addUser(userId, { through: "UserGroups" });
-    groupRecord.increment("userNumber");
-    return groupRecord;
-  }
-
   async findGroups(userId) {
     const userRecord = await db.User.findByPk(userId);
     const groups = await userRecord.getGroups();

@@ -63,6 +63,22 @@ const deleteGroup = (req, res) => {
     });
 };
 
+const joinGroup = (req, res) => {
+  const userId = req.params.userId;
+  const groupCode = req.params.groupCode;
+  group
+    .joinGroup(userId, groupCode)
+    .then((group) => {
+      res.json({
+        message: "User was joined to group successfully!",
+        group: group,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const findUsers = (req, res) => {
   const groupId = req.params.groupId;
   group
@@ -92,6 +108,7 @@ export {
   readGroup,
   updateGroup,
   deleteGroup,
+  joinGroup,
   findUsers,
   findMeetings,
 };

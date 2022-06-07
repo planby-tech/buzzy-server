@@ -9,8 +9,8 @@ export default class GroupService {
       userNumber: 1,
       groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
     });
-    await groupRecord.addUser(userId);
-
+    const userRecord = await db.User.findByPk(userId);
+    await groupRecord.addUser(userId, { through: "UserGroups" });
     return groupRecord;
   }
 
@@ -43,6 +43,21 @@ export default class GroupService {
       },
     });
     return;
+  }
+
+  async joinGroup(userId, groupCode) {
+    const groupRecord = await db.Group.findOne({
+      where: {
+        groupCode: groupCode,
+      },
+    });
+    if (!groupRecord) {
+      throw new Error("Group not found!");
+    }
+    const userRecord = await db.User.findByPk(userId);
+    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+    groupRecord.increment("userNumber");
+    return groupRecord;
   }
 
   async findUsers(groupId) {

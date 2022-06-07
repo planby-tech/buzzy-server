@@ -5,6 +5,7 @@ import {
   readGroup,
   updateGroup,
   deleteGroup,
+  joinGroup,
   findUsers,
   findMeetings,
 } from "../controllers/GroupController.js";
@@ -18,34 +19,40 @@ export default (app) => {
     next();
   });
 
-  app.post("/groups", [authJwt.verifyToken], createGroup);
+  app.post("/users/:userId/groups", [authJwt.verifyToken], createGroup);
 
   app.get(
-    "/groups/:groupId",
+    "/users/:userId/groups/:groupId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     readGroup
   );
 
   app.put(
-    "/groups/:groupId",
+    "/users/:userId/groups/:groupId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     updateGroup
   );
 
   app.delete(
-    "/groups/:groupId",
+    "/users/:userId/groups/:groupId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     deleteGroup
   );
 
+  app.patch(
+    "/users/:userId/groups/:groupCode",
+    [authJwt.verifyToken],
+    joinGroup
+  );
+
   app.get(
-    "/groups/:groupId/users",
+    "/users/:userId/groups/:groupId/users",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findUsers
   );
 
   app.get(
-    "/groups/:groupId/meetings",
+    "/users/:userId/groups/:groupId/meetings",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findMeetings
   );
