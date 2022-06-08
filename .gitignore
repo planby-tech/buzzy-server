@@ -9,7 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .vscode/
-.env
+.env*
 src/db/config/database.json
 
 # macOS

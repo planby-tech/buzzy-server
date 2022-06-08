@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
-import "dotenv/config";
-import { ip } from "./constants/url.js";
+import dotenv from "dotenv";
+import path from "path";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
@@ -19,10 +19,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+const envFound = dotenv.config({ path: path.resolve("../.env") });
+if (envFound.error) {
+  throw new Error("⚠️  Couldn't find .env file  ⚠️");
+}
+
 const PORT = process.env.PORT || 8000;
-const IP = process.env.IP || "http://localhost";
+const API_HOST = process.env.API_HOST || "http://localhost";
 let corsOptions = {
-  origin: IP + ":" + PORT,
+  origin: API_HOST + ":" + PORT,
 };
 
 app.use(cors(corsOptions));

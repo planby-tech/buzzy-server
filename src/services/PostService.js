@@ -1,6 +1,13 @@
 import fs from "fs";
 import AWS from "aws-sdk";
+import dotenv from "dotenv";
+import path from "path";
 import db from "../db/models/index.js";
+
+const envFound = dotenv.config({ path: path.resolve("../.env") });
+if (envFound.error) {
+  throw new Error("⚠️  Couldn't find .env file  ⚠️");
+}
 
 const isEqual = (a, b) => {
   if (a.length !== b.length) return false;
@@ -14,8 +21,8 @@ const isEqual = (a, b) => {
 };
 
 const s3 = new AWS.S3({
-  accessKeyId: "AKIA6RRZGFJNWDBIIDUF",
-  secretAccessKey: "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",
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
 const uploadFile = (fileName, postId) => {

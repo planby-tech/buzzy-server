@@ -1,4 +1,10 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+
+const envFound = dotenv.config({ path: path.resolve("../.env") });
+if (envFound.error) {
+  throw new Error("⚠️  Couldn't find .env file  ⚠️");
+}
 
 const development = {
   username: process.env.MYSQL_USERNAME,
