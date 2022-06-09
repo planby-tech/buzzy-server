@@ -4,6 +4,7 @@ import { Server, Socket } from "socket.io";
 import http from "http";
 import dotenv from "dotenv";
 import path from "path";
+import moment from "moment-timezone";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
@@ -18,6 +19,10 @@ import db from "./db/models/index.js";
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
+const now = new Date();
+console.log(moment(now).format());
+const seoul = moment(now).tz("Asia/Seoul").format();
+console.log(seoul);
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
@@ -42,8 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
-
-await db.sequelize.authenticate();
 
 // routes
 authRouter(app);

@@ -1,9 +1,10 @@
 import db from "../../db/models/index.js";
 
+// should change to req.params.userId (by routes)
 const checkValidMember = (req, res, next) => {
   db.Group.findByPk(req.params.groupId)
     .then((group) => {
-      if (group.has(req.userId)) {
+      if (group.hasUser(req.userId)) {
         next();
       } else {
         res.status(401).send("This user is not allowed to access group!");

@@ -12,6 +12,7 @@ const development = {
   database: process.env.MYSQL_DATABASE,
   host: process.env.MYSQL_HOST,
   dialect: process.env.MYSQL_DIALECT,
+  timezone: process.env.MYSQL_TIMEZONE,
 };
 const test = {
   username: process.env.MYSQL_USERNAME,
@@ -19,6 +20,7 @@ const test = {
   database: process.env.MYSQL_DATABASE_TEST,
   host: process.env.MYSQL_HOST,
   dialect: process.env.MYSQL_DIALECT,
+  timezone: process.env.MYSQL_TIMEZONE,
 };
 const production = {
   username: process.env.MYSQL_USERNAME,
@@ -26,6 +28,7 @@ const production = {
   database: process.env.MYSQL_DATABASE_PRODUCTION,
   host: process.env.MYSQL_HOST,
   dialect: process.env.MYSQL_DIALECT,
+  timezone: process.env.MYSQL_TIMEZONE,
 };
 
 const database = {
