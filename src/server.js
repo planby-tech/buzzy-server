@@ -13,16 +13,13 @@ import questionRouter from "./api/routes/question.routes.js";
 import postRouter from "./api/routes/post.routes.js";
 import commentRouter from "./api/routes/comment.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
+import tagRouter from "./api/routes/tag.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const now = new Date();
-console.log(moment(now).format());
-const seoul = moment(now).tz("Asia/Seoul").format();
-console.log(seoul);
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
@@ -48,6 +45,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
 
+await db.sequelize.authenticate();
+
 // routes
 authRouter(app);
 userRouter(app);
@@ -56,6 +55,7 @@ meetingRouter(app);
 questionRouter(app);
 postRouter(app);
 commentRouter(app);
+tagRouter(app);
 testRouter(app);
 socketRouter(io);
 
