@@ -15,7 +15,8 @@ export default (sequelize, DataTypes) => {
   Place.init(
     {
       name: DataTypes.STRING,
-      coord: DataTypes.GEOMETRY,
+      latitude: DataTypes.DOUBLE,
+      longitude: DataTypes.DOUBLE,
       type: DataTypes.STRING,
     },
     {

@@ -25,7 +25,8 @@ export default class MeetingService {
     for await (const place of meetingDTO.places) {
       db.Place.create({
         name: place.name,
-        coord: place.coord,
+        latitude: place.latitude,
+        longitude: place.longitude,
       }).then((place) => {
         meetingRecord.addPlace(place);
       });
@@ -83,7 +84,8 @@ export default class MeetingService {
       for await (const place of meetingDTO.places) {
         db.Place.create({
           name: place.name,
-          coord: place.coord,
+          latitude: place.latitude,
+          longitude: place.longitude,
         }).then((place) => {
           meetingRecord.addPlace(place);
         });

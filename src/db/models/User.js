@@ -19,6 +19,11 @@ export default (sequelize, DataTypes) => {
         as: "meetings",
         foreignKey: "userId",
       });
+      models.User.belongsToMany(models.Tag, {
+        through: "UserTags",
+        as: "tags",
+        primaryKey: "userId",
+      });
       models.User.hasMany(models.Post, {
         foreignKey: "userId",
       });

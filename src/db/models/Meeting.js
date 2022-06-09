@@ -17,15 +17,20 @@ export default (sequelize, DataTypes) => {
         as: "users",
         foreignKey: "meetingId",
       });
+      models.Meeting.belongsToMany(models.Question, {
+        through: "MeetingQuestions",
+        as: "questions",
+        foreignKey: "meetingId",
+      });
+      models.Meeting.belongsToMany(models.Tag, {
+        through: "MeetingTags",
+        as: "tags",
+        primaryKey: "meetingId",
+      });
       models.Meeting.hasMany(models.Place, {
         foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Post, {
-        foreignKey: "meetingId",
-      });
-      models.Meeting.belongsToMany(models.Question, {
-        through: "MeetingQuestions",
-        as: "questions",
         foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Comment, {
