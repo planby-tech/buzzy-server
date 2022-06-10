@@ -2,12 +2,12 @@ import TagService from "../../services/TagService.js";
 
 const tag = new TagService();
 
-const addTag = (req, res) => {
+const tagging = (req, res) => {
   const userId = req.userId;
   const groupId = req.params.groupId;
   const tagId = req.params.tagId;
   tag
-    .addTag(userId, groupId, tagId)
+    .tagging(userId, groupId, tagId)
     .then(({ tagRecord, status }) => {
       res.json({
         message: "User was added to tag successfully!",
@@ -20,4 +20,4 @@ const addTag = (req, res) => {
     });
 };
 
-export { addTag };
+export { tagging };

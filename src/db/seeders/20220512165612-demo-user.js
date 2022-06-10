@@ -9,7 +9,7 @@ module.exports = {
           email: "heonsub6558@gmail.com",
           password:
             "$2a$08$rvjsysvidIGNK5zHM44y7us3bHqBL2N4L22eA4DPXEBdEWw4beK0e",
-          name: "Hyeonseop Noh",
+          name: "노현섭",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -17,7 +17,7 @@ module.exports = {
           email: "daehan1028@gmail.com",
           password:
             "$2a$08$1dcN8c9D2vBsHgagtNQ99O77UdKgRgYWR9pHRAGhpV4dkjV8gFYlC",
-          name: "Daehan Lee",
+          name: "이대한",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

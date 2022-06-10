@@ -13,7 +13,7 @@ const isEqual = (a, b) => {
 };
 
 export default class TagService {
-  async addTag(userId, groupId, tagId) {
+  async tagging(userId, groupId, tagId) {
     const tagRecord = await db.Tag.findOne({
       where: {
         uid: tagId,

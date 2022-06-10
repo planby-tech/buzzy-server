@@ -1,6 +1,6 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
-import { addTag } from "../controllers/TagController.js";
+import { tagging } from "../controllers/TagController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -14,6 +14,6 @@ export default (app) => {
   app.post(
     "/groups/:groupId/tags/:tagId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    addTag
+    tagging
   );
 };
