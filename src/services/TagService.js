@@ -72,4 +72,8 @@ export default class TagService {
 
     return { tag: tagRecord, meeting: meetingRecord, status: 2 };
   }
+
+  async findAllTags() {
+    
+  }
 }

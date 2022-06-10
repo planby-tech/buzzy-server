@@ -28,7 +28,7 @@ export default (sequelize, DataTypes) => {
         foreignKey: "meetingId",
       });
       models.Meeting.belongsTo(models.Flower, {
-        foreignKey: "meetingId",
+        foreignKey: "flowerId",
       });
       models.Meeting.hasMany(models.Place, {
         foreignKey: "meetingId",

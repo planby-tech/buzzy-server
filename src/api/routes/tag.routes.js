@@ -1,6 +1,6 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
-import { tagging } from "../controllers/TagController.js";
+import { tagging, findAllTags } from "../controllers/TagController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -16,4 +16,6 @@ export default (app) => {
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     tagging
   );
+
+  app.get("/groups/:groupId/tags", [authJwt.verifyToken], findAllTags);
 };
