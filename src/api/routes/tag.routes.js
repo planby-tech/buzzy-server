@@ -12,7 +12,7 @@ export default (app) => {
   });
 
   app.post(
-    "/groups/:groupId/tags/:tagId",
+    "/groups/:groupId/tags/:tagUid",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     tagging
   );

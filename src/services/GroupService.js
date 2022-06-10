@@ -54,7 +54,7 @@ export default class GroupService {
       throw new Error("Group not found!");
     }
     await groupRecord.addUser(userId, { through: "UserGroups" });
-    groupRecord.increment("userNumber");
+    await groupRecord.increment("userNumber");
     return groupRecord;
   }
 

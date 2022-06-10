@@ -20,6 +20,11 @@ export default class MeetingService {
       allDay: meetingDTO.allDay,
       tagNumber: meetingDTO.tagNumber || 0,
     });
+
+    if (meetingDTO.isTagged) {
+      await meetingRecord.addTag(meetingDTO.isTagged);
+    }
+
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
 

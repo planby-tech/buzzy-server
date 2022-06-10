@@ -18,10 +18,10 @@ const addHours = (numOfHours, date) => {
 };
 
 export default class TagService {
-  async tagging(userId, groupId, tagId) {
+  async tagging(userId, groupId, tagUid) {
     const tagRecord = await db.Tag.findOne({
       where: {
-        uid: tagId,
+        uid: tagUid,
       },
     });
     if (!tagRecord) {
@@ -38,13 +38,11 @@ export default class TagService {
       const startDate = moment(meeting.start);
       const endDate = moment(meeting.end);
       if (compareDate.isBetween(startDate, endDate)) {
-        meetingFound = true;
-
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
-        if ((tagNumber = users.length)) {
-          await meeting.addTag(tagId);
+        if (tagNumber >= users.length) {
+          await meeting.addTag(tagRecord.id);
           return { tag: tagRecord, meeting: meeting, status: 1 };
         } else {
           return { tag: tagRecord, meeting: meeting, status: 0 };
@@ -67,6 +65,7 @@ export default class TagService {
       ],
       users: [userId],
       activities: [12],
+      isTagged: tagRecord.id,
     };
 
     return { tag: tagRecord, meeting: meetingRecord, status: 2 };

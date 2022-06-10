@@ -7,9 +7,9 @@ const meeting = new MeetingService();
 const tagging = (req, res) => {
   const userId = req.userId;
   const groupId = req.params.groupId;
-  const tagId = req.params.tagId;
+  const tagUid = req.params.tagUid;
   tag
-    .tagging(userId, groupId, tagId)
+    .tagging(userId, groupId, tagUid)
     .then(({ tag, meeting, status }) => {
       if (status === 0 || status === 1) {
         res.json({
