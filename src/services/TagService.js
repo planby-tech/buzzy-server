@@ -12,6 +12,11 @@ const isEqual = (a, b) => {
   return true;
 };
 
+const addHours = (numOfHours, date) => {
+  date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+  return date;
+};
+
 export default class TagService {
   async tagging(userId, groupId, tagId) {
     const tagRecord = await db.Tag.findOne({
@@ -24,29 +29,46 @@ export default class TagService {
     }
 
     const groupRecord = await db.Group.findByPk(groupId);
-    const meetingRecord = await groupRecord.getMeetings();
+    const meetings = await groupRecord.getMeetings();
 
-    const now = new Date();
+    let now = new Date();
     const compareDate = moment(now);
 
-    for await (const meeting of meetingRecord) {
+    for await (const meeting of meetings) {
       const startDate = moment(meeting.start);
       const endDate = moment(meeting.end);
       if (compareDate.isBetween(startDate, endDate)) {
+        meetingFound = true;
+
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
         if ((tagNumber = users.length)) {
           await meeting.addTag(tagId);
-          return { tagRecord: tagRecord, status: 1 };
+          return { tag: tagRecord, meeting: meeting, status: 1 };
         } else {
-          break;
+          return { tag: tagRecord, meeting: meeting, status: 0 };
         }
       }
     }
 
-    // create new meeting logic
+    const meetingRecord = {
+      title: `${tagRecord.name}에서의 약속`,
+      start: now,
+      end: addHours(1, now),
+      allDay: false,
+      tagNumber: 1,
+      places: [
+        {
+          name: tagRecord.name,
+          latitude: tagRecord.latitude,
+          longitude: tagRecord.longitude,
+        },
+      ],
+      users: [userId],
+      activities: [12],
+    };
 
-    return { tagRecord: tagRecord, status: 0 };
+    return { tag: tagRecord, meeting: meetingRecord, status: 2 };
   }
 }
