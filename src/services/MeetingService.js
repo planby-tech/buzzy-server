@@ -18,6 +18,7 @@ export default class MeetingService {
       start: meetingDTO.start,
       end: meetingDTO.end,
       allDay: meetingDTO.allDay,
+      tagNumber: 0,
     });
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
