@@ -25,7 +25,10 @@ export default (sequelize, DataTypes) => {
       models.Meeting.belongsToMany(models.Tag, {
         through: "MeetingTags",
         as: "tags",
-        primaryKey: "meetingId",
+        foreignKey: "meetingId",
+      });
+      models.Meeting.belongsTo(models.Flower, {
+        foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Place, {
         foreignKey: "meetingId",

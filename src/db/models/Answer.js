@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
   }
   Answer.init(
     {
-      content: DataTypes.STRING,
+      content: DataTypes.TEXT,
     },
     {
       sequelize,

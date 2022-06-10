@@ -37,10 +37,12 @@ export default class TagService {
     for await (const meeting of meetings) {
       const startDate = moment(meeting.start);
       const endDate = moment(meeting.end);
+
       if (compareDate.isBetween(startDate, endDate)) {
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
+        
         if (tagNumber >= users.length) {
           await meeting.addTag(tagRecord.id);
           return { tag: tagRecord, meeting: meeting, status: 1 };
