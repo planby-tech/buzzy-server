@@ -48,6 +48,7 @@ export default (sequelize, DataTypes) => {
       end: DataTypes.DATE,
       allDay: DataTypes.BOOLEAN,
       tagNumber: DataTypes.INTEGER,
+      postNumber: DataTypes.INTEGER,
     },
     {
       sequelize,

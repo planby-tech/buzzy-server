@@ -1,4 +1,5 @@
 import PostService from "../../services/PostService.js";
+import { generateFlower } from "./FlowerController.js";
 
 const post = new PostService();
 
@@ -8,11 +9,18 @@ const createPost = (req, res) => {
   const postDTO = req.body;
   post
     .createPost(meetingId, userId, postDTO)
-    .then((post) => {
-      res.json({
-        message: "Post was created successfully!",
-        post: post,
-      });
+    .then(({ meeting, post, status }) => {
+      if (status === 0) {
+        res.json({
+          message: "Post was created successfully!",
+          meeting: meeting,
+          post: post,
+          status: status,
+        });
+      } else {
+        req.body.meeting = meeting;
+        generateFlower(req, res);
+      }
     })
     .catch((err) => {
       res.status(500).send(err.message);

@@ -68,7 +68,7 @@ export default class GroupService {
     const groupRecord = await db.Group.findByPk(groupId);
     const meetings = await groupRecord.getMeetings();
     const meetingRecord = [];
-    if (!meetings) {
+    if (meetings.length === 0) {
       throw new Error("Meeting not found!");
     }
     for (const meeting of meetings) {
@@ -90,4 +90,8 @@ export default class GroupService {
     }
     return meetingRecord;
   }
+
+  async findFlowers(groupId) {}
+
+  async findTags(groupId) {}
 }

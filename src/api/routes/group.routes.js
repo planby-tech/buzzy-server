@@ -8,6 +8,8 @@ import {
   joinGroup,
   findUsers,
   findMeetings,
+  findFlowers,
+  findTags,
 } from "../controllers/GroupController.js";
 
 export default (app) => {
@@ -55,5 +57,17 @@ export default (app) => {
     "/users/:userId/groups/:groupId/meetings",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findMeetings
+  );
+
+  app.get(
+    "/users/:userId/groups/:groupId/flowers",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findFlowers
+  );
+
+  app.get(
+    "/users/:userId/groups/:groupId/tags",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findTags
   );
 };

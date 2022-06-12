@@ -73,7 +73,14 @@ export default class PostService {
       });
     }
 
-    return postRecord;
+    await postRecord.increment("postNumber");
+    const users = await meetingRecord.getUsers();
+
+    if (meetingRecord.postNumber === users.length) {
+      return { meeting: meetingRecord, post: postRecord, status: 1 };
+    } else {
+      return { meeting: meetingRecord, post: postRecord, status: 0 };
+    }
   }
 
   async readPost(postId) {

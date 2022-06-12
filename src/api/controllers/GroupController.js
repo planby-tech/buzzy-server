@@ -103,6 +103,30 @@ const findMeetings = (req, res) => {
     });
 };
 
+const findFlowers = (req, res) => {
+  const groupId = req.params.groupId;
+  group
+    .findFlowers(groupId)
+    .then((flowers) => {
+      res.json(flowers);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const findTags = (req, res) => {
+  const groupId = req.params.groupId;
+  group
+    .findTags(groupId)
+    .then((tags) => {
+      res.json(tags);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 export {
   createGroup,
   readGroup,
@@ -111,4 +135,6 @@ export {
   joinGroup,
   findUsers,
   findMeetings,
+  findFlowers,
+  findTags,
 };

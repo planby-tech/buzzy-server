@@ -33,7 +33,7 @@ export default class UserService {
     const userRecord = await db.User.findByPk(userId);
     const groups = await userRecord.getGroups();
     const groupRecord = [];
-    if (!groups) {
+    if (groups.length === 0) {
       throw new Error("Group not found!");
     }
     for (const group of groups) {
@@ -61,7 +61,7 @@ export default class UserService {
     const userRecord = await db.User.findByPk(userId);
     const meetings = await userRecord.getMeetings();
     const meetingRecord = [];
-    if (!meetings) {
+    if (meetings.length === 0) {
       throw new Error("Meeting not found!");
     }
     for (const meeting of meetings) {

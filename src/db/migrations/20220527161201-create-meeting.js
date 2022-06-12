@@ -23,6 +23,9 @@ module.exports = {
       tagNumber: {
         type: Sequelize.INTEGER,
       },
+      postNumber: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

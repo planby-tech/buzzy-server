@@ -19,6 +19,7 @@ export default class MeetingService {
       end: meetingDTO.end,
       allDay: meetingDTO.allDay,
       tagNumber: meetingDTO.tagNumber || 0,
+      postNumber: 0,
     });
 
     if (meetingDTO.isTagged) {
