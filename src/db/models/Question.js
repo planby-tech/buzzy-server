@@ -9,12 +9,12 @@ export default (sequelize, DataTypes) => {
         as: "posts",
         foreignKey: "questionId",
       });
-      models.Question.hasMany(models.Answer, {
-        foreignKey: "questionId",
-      });
       models.Question.belongsToMany(models.Meeting, {
         through: "MeetingQuestions",
         as: "meetings",
+        foreignKey: "questionId",
+      });
+      models.Question.hasMany(models.Answer, {
         foreignKey: "questionId",
       });
     }
@@ -22,6 +22,8 @@ export default (sequelize, DataTypes) => {
   Question.init(
     {
       content: DataTypes.STRING,
+      options: DataTypes.JSON,
+      activityType: DataTypes.INTEGER,
     },
     {
       sequelize,

@@ -14,11 +14,11 @@ const generateQuestion = (req, res) => {
     });
 };
 
-const removeQuestion = (req, res) => {
+const excludeQuestion = (req, res) => {
   const meetingId = req.params.meetingId;
   const questionId = req.params.questionId;
   question
-    .removeQuestion(meetingId, questionId)
+    .excludeQuestion(meetingId, questionId)
     .then(() => {
       res.json({
         message: "Removing question...",
@@ -29,4 +29,4 @@ const removeQuestion = (req, res) => {
     });
 };
 
-export { generateQuestion, removeQuestion };
+export { generateQuestion, excludeQuestion };

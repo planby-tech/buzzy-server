@@ -52,7 +52,7 @@ export default class PostService {
 
     for await (const questionAnswer of postDTO.questionAnswers) {
       await db.Question.findByPk(questionAnswer.question).then((question) => {
-        postRecord.addQuestion(question, { through: "PostQuestions" });
+        postRecord.addQuestion(question);
         db.Answer.create({
           content: questionAnswer.answer,
         }).then((answer) => {

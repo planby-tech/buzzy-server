@@ -1,7 +1,7 @@
 import authJwt from "../middleware/AuthJwt.js";
 import {
   generateQuestion,
-  removeQuestion,
+  excludeQuestion,
 } from "../controllers/QuestionController.js";
 
 export default (app) => {
@@ -21,6 +21,6 @@ export default (app) => {
 
   app.delete(
     "/meetings/:meetingId/users/:userId/questions/:questionId",
-    removeQuestion
+    excludeQuestion
   );
 };

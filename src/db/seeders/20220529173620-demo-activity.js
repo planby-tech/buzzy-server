@@ -9,7 +9,7 @@ module.exports = {
         { category: "영화", createdAt: new Date(), updatedAt: new Date() },
         { category: "쇼핑", createdAt: new Date(), updatedAt: new Date() },
         { category: "여행", createdAt: new Date(), updatedAt: new Date() },
-        { category: "독서", createdAt: new Date(), updatedAt: new Date() },
+        { category: "운동", createdAt: new Date(), updatedAt: new Date() },
         { category: "미용", createdAt: new Date(), updatedAt: new Date() },
         { category: "드라이브", createdAt: new Date(), updatedAt: new Date() },
         { category: "피크닉", createdAt: new Date(), updatedAt: new Date() },

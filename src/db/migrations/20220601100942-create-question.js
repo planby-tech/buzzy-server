@@ -11,6 +11,12 @@ module.exports = {
       content: {
         type: Sequelize.STRING,
       },
+      options: {
+        type: Sequelize.JSON,
+      },
+      activityType: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
