@@ -47,15 +47,4 @@ const newMeeting = (req, res) => {
     });
 };
 
-const findAllTags = (req, res) => {
-  tag
-    .findAllTags()
-    .then((tags) => {
-      res.json(tags);
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
-};
-
-export { tagging, findAllTags };
+export { tagging };

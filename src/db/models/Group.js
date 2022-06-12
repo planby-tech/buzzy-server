@@ -14,6 +14,11 @@ export default (sequelize, DataTypes) => {
         as: "flowers",
         foreignKey: "groupId",
       });
+      models.Group.belongsToMany(models.Tag, {
+        through: "GroupTags",
+        as: "tags",
+        foreignKey: "groupId",
+      });
       models.Group.hasMany(models.Meeting, {
         foreignKey: "groupId",
       });

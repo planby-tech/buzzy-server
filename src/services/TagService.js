@@ -42,9 +42,10 @@ export default class TagService {
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
-        
+
         if (tagNumber >= users.length) {
           await meeting.addTag(tagRecord.id);
+          await groupRecord.addTag(tagRecord.id);
           return { tag: tagRecord, meeting: meeting, status: 1 };
         } else {
           return { tag: tagRecord, meeting: meeting, status: 0 };
@@ -71,9 +72,5 @@ export default class TagService {
     };
 
     return { tag: tagRecord, meeting: meetingRecord, status: 2 };
-  }
-
-  async findAllTags() {
-    
   }
 }

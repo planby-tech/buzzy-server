@@ -103,24 +103,12 @@ const findMeetings = (req, res) => {
     });
 };
 
-const findFlowers = (req, res) => {
+const findItems = (req, res) => {
   const groupId = req.params.groupId;
   group
-    .findFlowers(groupId)
-    .then((flowers) => {
-      res.json(flowers);
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
-};
-
-const findTags = (req, res) => {
-  const groupId = req.params.groupId;
-  group
-    .findTags(groupId)
-    .then((tags) => {
-      res.json(tags);
+    .findItems(groupId)
+    .then((items) => {
+      res.json(items);
     })
     .catch((err) => {
       res.status(500).send(err.message);
@@ -135,6 +123,5 @@ export {
   joinGroup,
   findUsers,
   findMeetings,
-  findFlowers,
-  findTags,
+  findItems,
 };

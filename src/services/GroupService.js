@@ -91,7 +91,32 @@ export default class GroupService {
     return meetingRecord;
   }
 
-  async findFlowers(groupId) {}
+  async findItems(groupId) {
+    const groupRecord = await db.Group.findOne({
+      where: {
+        id: groupId,
+      },
+      include: [
+        {
+          model: db.Flower,
+          as: "flowers",
+        },
+        { model: db.Tag, as: "tags" },
+      ],
+    });
 
-  async findTags(groupId) {}
+    let itemRecord = [];
+    for (const flower of groupRecord.flowers) {
+      itemRecord.push(flower.GroupFlowers);
+    }
+    for (const tag of groupRecord.tags) {
+      itemRecord.push(tag.GroupTags);
+    }
+    if (itemRecord.length === 0) {
+      throw new Error("Item not found!");
+    }
+    itemRecord.sort((a, b) => a.createdAt - b.createdAt);
+
+    return itemRecord;
+  }
 }

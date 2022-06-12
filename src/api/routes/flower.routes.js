@@ -1,6 +1,6 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
-import { tagging } from "../controllers/TagController.js";
+import { readFlower } from "../controllers/FlowerController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -11,9 +11,9 @@ export default (app) => {
     next();
   });
 
-  app.post(
-    "/groups/:groupId/tags/:tagUid",
+  app.get(
+    "/groups/:groupId/flowers/:flowerId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    tagging
+    readFlower
   );
 };

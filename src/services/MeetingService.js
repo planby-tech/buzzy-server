@@ -22,12 +22,13 @@ export default class MeetingService {
       postNumber: 0,
     });
 
-    if (meetingDTO.isTagged) {
-      await meetingRecord.addTag(meetingDTO.isTagged);
-    }
-
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
+
+    if (meetingDTO.isTagged) {
+      await meetingRecord.addTag(meetingDTO.isTagged);
+      await groupRecord.addTag(meetingDTO.isTagged);
+    }
 
     for await (const place of meetingDTO.places) {
       db.Place.create({

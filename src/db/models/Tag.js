@@ -4,6 +4,11 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Tag extends Model {
     static associate(models) {
+      models.Tag.belongsToMany(models.Group, {
+        through: "GroupTags",
+        as: "groups",
+        foreignKey: "tagId",
+      });
       models.Tag.belongsToMany(models.User, {
         through: "UserTags",
         as: "users",

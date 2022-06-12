@@ -8,8 +8,7 @@ import {
   joinGroup,
   findUsers,
   findMeetings,
-  findFlowers,
-  findTags,
+  findItems,
 } from "../controllers/GroupController.js";
 
 export default (app) => {
@@ -60,14 +59,8 @@ export default (app) => {
   );
 
   app.get(
-    "/users/:userId/groups/:groupId/flowers",
+    "/users/:userId/groups/:groupId/items",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    findFlowers
-  );
-
-  app.get(
-    "/users/:userId/groups/:groupId/tags",
-    [authJwt.verifyToken, verifyGroup.checkValidMember],
-    findTags
+    findItems
   );
 };
