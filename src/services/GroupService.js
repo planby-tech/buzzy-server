@@ -112,9 +112,7 @@ export default class GroupService {
     for (const tag of groupRecord.tags) {
       itemRecord.push(tag.GroupTags);
     }
-    if (itemRecord.length === 0) {
-      throw new Error("Item not found!");
-    }
+
     itemRecord.sort((a, b) => a.createdAt - b.createdAt);
 
     return itemRecord;
