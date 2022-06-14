@@ -4,7 +4,7 @@ import { Server, Socket } from "socket.io";
 import http from "http";
 import dotenv from "dotenv";
 import path from "path";
-import moment from "moment-timezone";
+import bodyParser from "body-parser";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
@@ -40,6 +40,8 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.json());
 
 // root
 app.get("/", (req, res) => {

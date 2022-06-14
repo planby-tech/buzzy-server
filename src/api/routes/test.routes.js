@@ -1,3 +1,4 @@
+import authJwt from "../middleware/AuthJwt.js";
 import db from "../../db/models/index.js";
 import AWS from "aws-sdk";
 
@@ -37,9 +38,10 @@ export default (app) => {
     return res.json({ user: user });
   });
 
-  app.post("/image", async (req, res) => {
-    const url = uploadFile(req.body[0], 1, 1, 1);
-    console.log(url);
-    return res.send(url);
+  app.post("/image", [authJwt.verifyToken], (req, res) => {
+    const data = req.body;
+    console.log(data);
+    console.log(req.files);
+    return res.send(data);
   });
 };
