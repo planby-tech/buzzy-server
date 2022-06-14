@@ -1,5 +1,6 @@
 import multer from "multer";
 import AWS from "aws-sdk";
+import path from "path";
 import db from "../../db/models/index.js";
 
 const s3 = new AWS.S3({
@@ -21,14 +22,14 @@ const uploadFile = (fileBlob, meetingId, postId, imageIndex) => {
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    callback(null, "./images");
+    callback(null, path.resolve("./assets/images"));
   },
   filename(req, file, callback) {
     callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`);
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -51,7 +52,6 @@ export default (app) => {
 
   app.post("/image", upload.array("photo", 3), (req, res) => {
     console.log("file", req.files);
-    console.log("body", req.body);
     res.status(200).json({
       message: "success!",
     });
