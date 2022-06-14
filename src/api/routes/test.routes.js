@@ -1,6 +1,6 @@
-import authJwt from "../middleware/AuthJwt.js";
-import db from "../../db/models/index.js";
+import multer from "multer";
 import AWS from "aws-sdk";
+import db from "../../db/models/index.js";
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -18,6 +18,17 @@ const uploadFile = (fileBlob, meetingId, postId, imageIndex) => {
     return data.Location;
   });
 };
+
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, "./images");
+  },
+  filename(req, file, callback) {
+    callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -38,10 +49,11 @@ export default (app) => {
     return res.json({ user: user });
   });
 
-  app.post("/image", [authJwt.verifyToken], (req, res) => {
-    const data = req.body;
-    console.log(data);
-    console.log(req.files);
-    return res.send(data);
+  app.post("/image", upload.array("photo", 3), (req, res) => {
+    console.log("file", req.files);
+    console.log("body", req.body);
+    res.status(200).json({
+      message: "success!",
+    });
   });
 };
