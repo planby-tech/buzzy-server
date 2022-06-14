@@ -25,18 +25,15 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
-const uploadFile = (fileName, postId) => {
-  fs.readFile(fileName, (err, data) => {
-    if (err) throw err;
-    const params = {
-      Bucket: "buzzy-bucket", // pass your bucket name
-      Key: `${postId}/${fileName}`, // file will be saved as testBucket/contacts.csv
-      Body: JSON.stringify(data, null, 2),
-    };
-    s3.upload(params, (s3Err, data) => {
-      if (s3Err) throw s3Err;
-      return data.Location;
-    });
+const uploadFile = (fileBlob, postId) => {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: `${postId}/${fileName}`,
+    Body: fileBlob,
+  };
+  s3.upload(params, (s3Err, data) => {
+    if (s3Err) throw s3Err;
+    return data.Location;
   });
 };
 

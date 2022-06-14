@@ -14,6 +14,7 @@ import postRouter from "./api/routes/post.routes.js";
 import commentRouter from "./api/routes/comment.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
 import tagRouter from "./api/routes/tag.routes.js";
+import flowerRouter from "./api/routes/flower.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
 
@@ -56,6 +57,7 @@ questionRouter(app);
 postRouter(app);
 commentRouter(app);
 tagRouter(app);
+flowerRouter(app);
 testRouter(app);
 socketRouter(io);
 
