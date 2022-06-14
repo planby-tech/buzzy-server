@@ -6,10 +6,10 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 });
 
-const uploadFile = (fileBlob, postId) => {
+const uploadFile = (fileBlob, meetingId, postId, imageIndex) => {
   const params = {
     Bucket: process.env.S3_BUCKET_NAME,
-    Key: `${postId}/${fileName}`,
+    Key: `${meetingId}/${postId}/${imageIndex}`,
     Body: fileBlob,
   };
   s3.upload(params, (s3Err, data) => {
@@ -38,8 +38,7 @@ export default (app) => {
   });
 
   app.post("/image", async (req, res) => {
-    const postId = 1;
-    const url = uploadFile(req.body[0], postId);
+    const url = uploadFile(req.body[0], 1, 1, 1);
     return res.send(url);
   });
 };
