@@ -39,6 +39,7 @@ export default (app) => {
 
   app.post("/image", async (req, res) => {
     const url = uploadFile(req.body[0], 1, 1, 1);
+    console.log(url);
     return res.send(url);
   });
 };
