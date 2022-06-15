@@ -31,7 +31,7 @@ export default class TagService {
     const groupRecord = await db.Group.findByPk(groupId);
     const meetings = await groupRecord.getMeetings();
 
-    let now = new Date();
+    const now = new Date();
     const compareDate = moment(now);
 
     for await (const meeting of meetings) {
@@ -39,9 +39,19 @@ export default class TagService {
       const endDate = moment(meeting.end);
 
       if (compareDate.isBetween(startDate, endDate)) {
+        console.log("Exist meeting!!");
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
+
+        if (groupRecord.hasTag(tagRecord)) {
+          console.log("Duplicate tag!!");
+          await meeting.removeTag(tagRecord);
+          await groupRecord.removeTag(tagRecord);
+          await meeting.addTag(tagRecord);
+          await groupRecord.addTag(tagRecord);
+          return { tag: tagRecord, meeting: meeting, status: 1 };
+        }
 
         if (tagNumber >= users.length) {
           await meeting.addTag(tagRecord.id);
@@ -53,10 +63,13 @@ export default class TagService {
       }
     }
 
+    const start = now;
+    const end = addHours(1, new Date());
+
     const meetingRecord = {
       title: `${tagRecord.name}에서의 약속`,
-      start: now,
-      end: addHours(1, now),
+      start: start,
+      end: end,
       allDay: false,
       tagNumber: 1,
       places: [

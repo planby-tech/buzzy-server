@@ -11,6 +11,7 @@ const tagging = (req, res) => {
   tag
     .tagging(userId, groupId, tagUid)
     .then(({ tag, meeting, status }) => {
+      console.log("status is ", status);
       if (status === 0 || status === 1) {
         res.json({
           message: "User tagged to the existing meeting!",
