@@ -68,7 +68,6 @@ export default class GroupService {
     const groupRecord = await db.Group.findByPk(groupId);
     const meetings = await groupRecord.getMeetings();
     const meetingRecord = [];
-
     for (const meeting of meetings) {
       await db.Meeting.findOne({
         where: {

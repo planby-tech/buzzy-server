@@ -20,6 +20,9 @@ module.exports = {
       allDay: {
         type: Sequelize.BOOLEAN,
       },
+      duration: {
+        type: Sequelize.JSON,
+      },
       tagNumber: {
         type: Sequelize.INTEGER,
       },

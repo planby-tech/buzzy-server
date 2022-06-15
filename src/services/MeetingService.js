@@ -22,6 +22,15 @@ export default class MeetingService {
       postNumber: 0,
     });
 
+    const startDate = (
+      meetingDTO.start.getTime() +
+      9 * 60 * 60 * 1000
+    ).getDate();
+    const endDate = (meetingDTO.end.getTime() + 9 * 60 * 60 * 1000).getDate();
+
+    if (startDate !== endDate) {
+    }
+
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
 

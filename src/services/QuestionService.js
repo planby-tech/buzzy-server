@@ -26,14 +26,14 @@ export default class QuestionService {
 
     // return questionRecord;
 
-    const meetingRecord = db.Meeting.findByPk(meetingId);
-    const activities = meetingRecord.getActivities();
+    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    const activities = await meetingRecord.getActivities();
     const activityRecord = [];
 
     for (const activity of activities) {
       activityRecord.push(activity.id);
     }
-    const questionRecord = db.Question.findAll({
+    const questionRecord = await db.Question.findAll({
       where: {
         activityType: {
           [Op.or]: activityRecord,
