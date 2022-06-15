@@ -49,6 +49,7 @@ export default (app) => {
   });
 
   app.post("/image", upload.array("photo", 3), (req, res) => {
+    console.log("get image");
     const image = req.files;
     const path = image.map((img) => img.path);
     res.status(200).json({
