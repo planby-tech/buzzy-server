@@ -43,31 +43,31 @@ export default (app) => {
   );
 
   app.get(
-    "/meetings/:meetingId/places",
+    "/groups/:groupId/meetings/:meetingId/places",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findPlaces
   );
 
   app.get(
-    "/meetings/:meetingId/users",
+    "/groups/:groupId/meetings/:meetingId/users",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findUsers
   );
 
   app.get(
-    "/meetings/:meetingId/activities",
+    "/groups/:groupId/meetings/:meetingId/activities",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findActivities
   );
 
   app.get(
-    "/meetings/:meetingId/posts",
+    "/groups/:groupId/meetings/:meetingId/posts",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findPosts
   );
 
   app.get(
-    "/meetings/:meetingId/comments",
+    "/groups/:groupId/meetings/:meetingId/comments",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findComments
   );

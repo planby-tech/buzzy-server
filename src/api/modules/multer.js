@@ -33,3 +33,15 @@ const upload = multer({
 });
 
 export { upload };
+
+// multer for storing at disk storage
+// const storage = multer.diskStorage({
+//   destination(req, file, callback) {
+//     callback(null, path.resolve("./assets/images"));
+//   },
+//   filename(req, file, callback) {
+//     callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`);
+//   },
+// });
+
+// const upload = multer({ storage: storage });

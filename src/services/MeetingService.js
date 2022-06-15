@@ -53,10 +53,24 @@ export default class MeetingService {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
-      include: {
-        model: db.Post,
-        as: "posts",
-      },
+      include: [
+        {
+          model: db.Activity,
+          as: "activities",
+        },
+        {
+          model: db.User,
+          as: "users",
+        },
+        {
+          model: db.Place,
+          as: "posts",
+        },
+        {
+          model: db.Comment,
+          as: "comments",
+        },
+      ],
     });
     if (!meetingRecord) {
       throw new Error("Meeting not found!");
@@ -172,7 +186,32 @@ export default class MeetingService {
   }
 
   async findPosts(meetingId) {
-    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    const meetingRecord = await db.Meeting.findOne({
+      where: {
+        id: meetingId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: db.Activity,
+          as: "activities",
+        },
+        {
+          model: db.User,
+          as: "users",
+        },
+        {
+          model: db.Place,
+          as: "posts",
+        },
+        {
+          model: db.Comment,
+          as: "comments",
+        },
+      ],
+    });
     if (!meetingRecord) {
       throw new Error("Meeting not found!");
     }
@@ -197,7 +236,7 @@ export default class MeetingService {
       });
     }
 
-    return postRecord;
+    return { meetingRecord, postRecord };
   }
 
   async findComments(meetingId) {

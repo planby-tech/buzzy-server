@@ -36,8 +36,4 @@ export default class FlowerService {
 
     return flowerRecord;
   }
-
-  async getId(groupId, flowerId) {
-    
-  }
 }

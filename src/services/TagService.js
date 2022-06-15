@@ -39,13 +39,11 @@ export default class TagService {
       const endDate = moment(meeting.end);
 
       if (compareDate.isBetween(startDate, endDate)) {
-        console.log("Exist meeting!!");
         await meeting.increment("tagNumber");
         const tagNumber = meeting.tagNumber;
         const users = await meeting.getUsers();
 
         if (groupRecord.hasTag(tagRecord)) {
-          console.log("Duplicate tag!!");
           await meeting.removeTag(tagRecord);
           await groupRecord.removeTag(tagRecord);
           await meeting.addTag(tagRecord);
