@@ -103,12 +103,27 @@ export default class MeetingService {
   }
 
   async updateMeeting(meetingId, meetingDTO) {
+    const start = new Date(meetingDTO.start);
+    const end = new Date(meetingDTO.end);
+
+    const startDay = new Date(start.getTime() + 9 * 60 * 60 * 1000).getDate();
+    const endDay = new Date(end.getTime() + 9 * 60 * 60 * 1000).getDate();
+    const duration = {};
+
+    if (startDay !== endDay) {
+      const startKey = KST(start).split("/")[0];
+      const endKey = KST(end).split("/")[0];
+      duration[startKey] = { start: true, end: false };
+      duration[endKey] = { start: false, end: true };
+    }
+
     const meetingRecord = await db.Meeting.update(
       {
         title: meetingDTO.title,
-        start: meetingDTO.start,
-        end: meetingDTO.end,
+        start: KST(start),
+        end: KST(end),
         allDay: meetingDTO.allDay,
+        duration: duration,
       },
       { where: { id: meetingId } }
     );
