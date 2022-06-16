@@ -44,8 +44,8 @@ export default (sequelize, DataTypes) => {
   Meeting.init(
     {
       title: DataTypes.STRING,
-      start: DataTypes.DATE,
-      end: DataTypes.DATE,
+      start: DataTypes.STRING,
+      end: DataTypes.STRING,
       allDay: DataTypes.BOOLEAN,
       duration: DataTypes.JSON,
       tagNumber: DataTypes.INTEGER,

@@ -22,26 +22,29 @@ const KST = (date) => {
 
 export default class MeetingService {
   async createMeeting(groupId, meetingDTO) {
-    const startDate = meetingDTO.start.getTime() + 9 * 60 * 60 * 1000;
-    const endDate = meetingDTO.end.getTime() + 9 * 60 * 60 * 1000;
-    const start = KST(meetingDTO.start);
-    const end = KST(meetingDTO.end);
+    const start = new Date(meetingDTO.start);
+    const end = new Date(meetingDTO.end);
+
+    const startDay = new Date(start.getTime() + 9 * 60 * 60 * 1000).getDate();
+    const endDay = new Date(end.getTime() + 9 * 60 * 60 * 1000).getDate();
+    const duration = {};
+
+    if (startDay !== endDay) {
+      const startKey = KST(start).split("/")[0];
+      const endKey = KST(end).split("/")[0];
+      duration[startKey] = { start: true, end: false };
+      duration[endKey] = { start: false, end: true };
+    }
 
     const meetingRecord = await db.Meeting.create({
       title: meetingDTO.title,
-      start: start,
-      end: end,
+      start: KST(start),
+      end: KST(end),
       allDay: meetingDTO.allDay,
+      duration: duration,
       tagNumber: meetingDTO.tagNumber || 0,
       postNumber: 0,
     });
-
-    if (startDate.getDate() !== endDate.getDate()) {
-      const startKey = start.split("/")[0];
-      const endKey = end.split("/")[0];
-      meetingRecord.duration[startKey] = { start: true, end: false };
-      meetingRecord.duration[endKey] = { start: false, end: true };
-    }
 
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
