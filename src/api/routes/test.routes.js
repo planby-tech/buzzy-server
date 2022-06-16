@@ -21,9 +21,12 @@ export default (app) => {
   });
 
   app.post("/image", upload.array("photo", 3), (req, res) => {
-    console.log("get image");
+    for (file of req.files) {
+      console.log(file);
+    }
     const image = req.files;
     const path = image.map((img) => img.path);
+    console.log(path);
     res.status(200).json({
       message: "success!",
       path: path,

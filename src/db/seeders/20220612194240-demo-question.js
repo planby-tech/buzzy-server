@@ -53,6 +53,74 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          content: "평소 친구와 만날 때 불편한 점은?",
+          options:
+            '{"1": "친구들과 스케줄 조절하는 것이 힘들다.", "2": "친구들이 연락을 잘 보지 않는다.", "3": "약속 장소를 정하는 데 결정장애가 있다.", "4": "친구들이 제시간에 오지 않는다."}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "Buzzy앱의 어떤 부분이 가장 인상 깊었나요?",
+          options:
+            '{"1": "아이디어", "2": "화면 구성", "3": "디자인", "4": "기능"}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "사용성에 있어서 가장 불편한 점은 무엇인가요?",
+          options:
+            '{"1": "글씨 크기가 작다.", "2": "버튼이 작다.", "3": "기능이 어렵다.", "4": "불편한 점 없다."}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "Buzzy앱에 별점을 준다면?",
+          options: '{"1": "★★★★★", "2": "★★★★", "3": "★★★", "4": "★★"}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "Buzzy앱을 누구와 가장 많이 사용하실 예정인가요?",
+          options: '{"1": "친구", "2": "가족", "3": "연인", "4": "혼자"}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "하루 일과를 기록할 때 평소 어떻게 기록하나요?",
+          options:
+            '{"1": "날짜, 시간 정보만 기입", "2": "사진/그림 일기", "3": "오늘 하루의 장황한 설명", "4": "머리 속에 기록"}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "연령대가 어떻게 되시나요?",
+          options:
+            '{"1": "10대", "2": "20대", "3": "30대", "4": "40대", "5": "50대", "6": "60대", "7": "70대", "8": "80대"}',
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "Buzzy앱에 추가되었으면 하는 기능을 알려주세요.",
+          options: "{}",
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: "Buzzy팀에게 응원의 한 마디를 작성해 주세요.",
+          options: "{}",
+          activityType: 999,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

@@ -17,6 +17,12 @@ module.exports = {
         { category: "게임", createdAt: new Date(), updatedAt: new Date() },
         { category: "전시회", createdAt: new Date(), updatedAt: new Date() },
         { category: "기타", createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 999,
+          category: "설문",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
