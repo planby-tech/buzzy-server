@@ -1,22 +1,6 @@
 import moment from "moment-timezone";
 import db from "../db/models/index.js";
 
-const isEqual = (a, b) => {
-  if (a.length !== b.length) return false;
-  const uniqueValues = new Set([...a, ...b]);
-  for (const v of uniqueValues) {
-    const aCount = a.filter((e) => e === v).length;
-    const bCount = b.filter((e) => e === v).length;
-    if (aCount !== bCount) return false;
-  }
-  return true;
-};
-
-const addHours = (date, numOfHours) => {
-  date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
-  return date;
-};
-
 const UTC = (string) => {
   const date = string.split("/")[0];
   const time =

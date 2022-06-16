@@ -36,7 +36,7 @@ export default class QuestionService {
     const questionRecord = await db.Question.findAll({
       where: {
         activityType: {
-          [Op.or]: activityRecord,
+          [Op.in]: activityRecord,
         },
       },
     });
