@@ -1,3 +1,4 @@
+import moment from "moment-timezone";
 import db from "../db/models/index.js";
 
 const isEqual = (a, b) => {
@@ -11,24 +12,35 @@ const isEqual = (a, b) => {
   return true;
 };
 
+const KST = (date) => {
+  const dateToString = moment(date)
+    .utc()
+    .utcOffset("+09:00")
+    .format("YYYY-MM-DD/HH시 mm분");
+  return dateToString;
+};
+
 export default class MeetingService {
   async createMeeting(groupId, meetingDTO) {
+    const startDate = meetingDTO.start.getTime() + 9 * 60 * 60 * 1000;
+    const endDate = meetingDTO.end.getTime() + 9 * 60 * 60 * 1000;
+    const start = KST(meetingDTO.start);
+    const end = KST(meetingDTO.end);
+
     const meetingRecord = await db.Meeting.create({
       title: meetingDTO.title,
-      start: meetingDTO.start,
-      end: meetingDTO.end,
+      start: start,
+      end: end,
       allDay: meetingDTO.allDay,
       tagNumber: meetingDTO.tagNumber || 0,
       postNumber: 0,
     });
 
-    const startDate = (
-      meetingDTO.start.getTime() +
-      9 * 60 * 60 * 1000
-    ).getDate();
-    const endDate = (meetingDTO.end.getTime() + 9 * 60 * 60 * 1000).getDate();
-
-    if (startDate !== endDate) {
+    if (startDate.getDate() !== endDate.getDate()) {
+      const startKey = start.split("/")[0];
+      const endKey = end.split("/")[0];
+      meetingRecord.duration[startKey] = { start: true, end: false };
+      meetingRecord.duration[endKey] = { start: false, end: true };
     }
 
     const groupRecord = await db.Group.findByPk(groupId);

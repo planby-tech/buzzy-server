@@ -12,9 +12,20 @@ const isEqual = (a, b) => {
   return true;
 };
 
-const addHours = (numOfHours, date) => {
+const addHours = (date, numOfHours) => {
   date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
   return date;
+};
+
+const UTC = (string) => {
+  const date = string.split("/")[0];
+  const time =
+    string.split("/")[1].split(" ")[0].replace("시", "") +
+    ":" +
+    string.split("/")[1].split(" ")[1].replace("분", "") +
+    ":00:000";
+  const stringToDate = addHours(new Date(date + " " + time), 9);
+  return stringToDate;
 };
 
 export default class TagService {
@@ -35,8 +46,8 @@ export default class TagService {
     const compareDate = moment(now);
 
     for await (const meeting of meetings) {
-      const startDate = moment(meeting.start);
-      const endDate = moment(meeting.end);
+      const startDate = moment(UTC(meeting.start));
+      const endDate = moment(UTC(meeting.end));
 
       if (compareDate.isBetween(startDate, endDate)) {
         await meeting.increment("tagNumber");
@@ -62,7 +73,7 @@ export default class TagService {
     }
 
     const start = now;
-    const end = addHours(1, new Date());
+    const end = addHours(new Date(), 1);
 
     const meetingRecord = {
       title: `${tagRecord.name}에서의 약속`,
