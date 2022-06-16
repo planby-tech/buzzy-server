@@ -16,7 +16,7 @@ export default class QuestionService {
     // const newQuestions = await db.Question.findAll({
     //   where: {
     //     id: {
-    //       [Op.or]: indices,
+    //       [Op.in]: indices,
     //     },
     //   },
     // });
