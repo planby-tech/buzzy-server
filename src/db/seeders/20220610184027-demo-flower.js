@@ -6,21 +6,24 @@ module.exports = {
       "Flowers",
       [
         {
-          name: "민트꽃",
+          id: 1,
+          name: "",
           size: 1,
           type: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "보라꽃",
+          id: 2,
+          name: "",
           size: 2,
           type: null,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: "노란꽃",
+          id: 3,
+          name: "",
           size: 3,
           type: null,
           createdAt: new Date(),
