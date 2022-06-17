@@ -244,11 +244,13 @@ export default class MeetingService {
     if (!meetingRecord) {
       throw new Error("Meeting not found!");
     }
+    
     const posts = await meetingRecord.getPosts();
     const postRecord = [];
 
     for await (const post of posts) {
       const questionRecord = [];
+      const userRecord = await post.getUser();
       const answerRecord = await post.getAnswers();
       const imageRecord = await post.getImages();
 
@@ -258,7 +260,7 @@ export default class MeetingService {
       }
 
       postRecord.push({
-        user: post.userId,
+        user: userRecord.name,
         questions: questionRecord,
         answers: answerRecord,
         images: imageRecord,

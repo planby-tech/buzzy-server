@@ -36,7 +36,7 @@ module.exports = {
           id: 4,
           email: "chery4922@gmail.com",
           password:
-            "$2a$08$1dcN8c9D2vBsHgagtNQ99O77UdKgRgYWR9pHRAGhpV4dkjV8gFYlC",
+            "$2a$08$G/zLdpSYkKXXWQL9dVKfQ.6HtWe0Deqk57w0ZDyrPzl.iUay6seO2",
           name: "김채린",
           createdAt: new Date(),
           updatedAt: new Date(),
