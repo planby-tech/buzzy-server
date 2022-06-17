@@ -1,6 +1,11 @@
 import moment from "moment-timezone";
 import db from "../db/models/index.js";
 
+const addHours = (date, numOfHours) => {
+  date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
+  return date;
+};
+
 const UTC = (string) => {
   const date = string.split("/")[0];
   const time =
@@ -14,6 +19,7 @@ const UTC = (string) => {
 
 export default class TagService {
   async tagging(userId, groupId, tagUid) {
+    console.log(tagUid);
     const tagRecord = await db.Tag.findOne({
       where: {
         uid: tagUid,

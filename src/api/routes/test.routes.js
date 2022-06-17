@@ -21,7 +21,7 @@ export default (app) => {
   });
 
   app.post("/image", upload.array("photo", 3), (req, res) => {
-    for (file of req.files) {
+    for (const file of req.files) {
       console.log(file);
     }
     const image = req.files;
