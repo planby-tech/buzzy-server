@@ -60,23 +60,25 @@ export default class UserService {
     const meetings = await userRecord.getMeetings();
     const meetingRecord = [];
 
-    for (const meeting of meetings) {
-      await db.Meeting.findOne({
-        where: {
-          id: meeting.id,
-        },
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
-        },
-        include: {
-          model: db.User,
-          as: "users",
-          attributes: ["name"],
-        },
-      }).then((meeting) => {
-        meetingRecord.push(meeting);
-      });
-    }
+    await Promise.all(
+      meetings.map((meeting) => {
+        db.Meeting.findOne({
+          where: {
+            id: meeting.id,
+          },
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+          include: {
+            model: db.User,
+            as: "users",
+            attributes: ["name"],
+          },
+        }).then((meeting) => {
+          meetingRecord.push(meeting);
+        });
+      })
+    );
     return meetingRecord;
   }
 }

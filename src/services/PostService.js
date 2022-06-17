@@ -36,28 +36,32 @@ export default class PostService {
     await meetingRecord.addPost(postRecord);
     await userRecord.addPost(postRecord);
 
-    for await (const questionAnswer of postDTO.questionAnswers) {
-      await db.Question.findByPk(questionAnswer.question).then((question) => {
-        postRecord.addQuestion(question);
-        db.Answer.create({
-          content: questionAnswer.answer,
-        }).then((answer) => {
-          postRecord.addAnswer(answer);
-          userRecord.addAnswer(answer);
-          question.addAnswer(answer);
+    await Promise.all(
+      postDTO.questionAnswers.map((questionAnswer) => {
+        db.Question.findByPk(questionAnswer.question).then((question) => {
+          postRecord.addQuestion(question);
+          db.Answer.create({
+            content: questionAnswer.answer,
+          }).then((answer) => {
+            postRecord.addAnswer(answer);
+            userRecord.addAnswer(answer);
+            question.addAnswer(answer);
+          });
         });
-      });
-    }
+      })
+    );
 
-    for await (const image of postDTO.images) {
-      const url = uploadFile(image, postId);
-      await db.Image.create({
-        url: url,
-      }).then((image) => {
-        postRecord.addImage(image);
-        userRecord.addImage(image);
-      });
-    }
+    // await Promise.all(
+    //   postDTO.images.map((image) => {
+    //     const url = uploadFile(image, postId);
+    //     db.Image.create({
+    //       url: url,
+    //     }).then((image) => {
+    //       postRecord.addImage(image);
+    //       userRecord.addImage(image);
+    //     });
+    //   })
+    // );
 
     await postRecord.increment("postNumber");
     const users = await meetingRecord.getUsers();
@@ -107,21 +111,25 @@ export default class PostService {
       imageRecord.push(images[i].url);
     }
     if (!isEqual(imageRecord, postDTO.images)) {
-      for await (const image of images) {
-        await db.Image.destroy({
-          where: {
-            id: image.id,
-          },
-        });
-      }
-      for await (const image of postDTO.images) {
-        db.Image.create({
-          url: image,
-        }).then((image) => {
-          postRecord.addImage(image);
-          userRecord.addImage(image);
-        });
-      }
+      await Promise.all(
+        images.map((image) => {
+          db.Image.destroy({
+            where: {
+              id: image.id,
+            },
+          });
+        })
+      );
+      await Promise.all(
+        postDTO.images.map((image) => {
+          db.Image.create({
+            url: image,
+          }).then((image) => {
+            postRecord.addImage(image);
+            userRecord.addImage(image);
+          });
+        })
+      );
     }
 
     const answers = await postRecord.getAnswers();
@@ -156,21 +164,25 @@ export default class PostService {
     const answerRecord = await postRecord.getAnswers();
     const imageRecord = await postRecord.getImages();
 
-    for await (const answer of answerRecord) {
-      await db.Answer.destroy({
-        where: {
-          id: answer.id,
-        },
-      });
-    }
+    await Promise.all(
+      answerRecord.map((answer) => {
+        db.Answer.destroy({
+          where: {
+            id: answer.id,
+          },
+        });
+      })
+    );
 
-    for await (const image of imageRecord) {
-      await db.Image.destroy({
-        where: {
-          id: image.id,
-        },
-      });
-    }
+    await Promise.all(
+      imageRecord.map((image) => {
+        db.Image.destroy({
+          where: {
+            id: image.id,
+          },
+        });
+      })
+    );
 
     await db.Post.destroy({
       where: {

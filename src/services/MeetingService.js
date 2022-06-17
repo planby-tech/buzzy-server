@@ -36,15 +36,17 @@ export default class MeetingService {
       await groupRecord.addTag(meetingDTO.isTagged);
     }
 
-    for await (const place of meetingDTO.places) {
-      db.Place.create({
-        name: place.name,
-        latitude: place.latitude,
-        longitude: place.longitude,
-      }).then((place) => {
-        meetingRecord.addPlace(place);
-      });
-    }
+    await Promise.all(
+      meetingDTO.places.map((place) => {
+        db.Place.create({
+          name: place.name,
+          latitude: place.latitude,
+          longitude: place.longitude,
+        }).then((place) => {
+          meetingRecord.addPlace(place);
+        });
+      })
+    );
     await meetingRecord.addUsers(meetingDTO.users);
     await meetingRecord.addActivities(meetingDTO.activities);
 
@@ -116,23 +118,27 @@ export default class MeetingService {
 
     const placeRecord = await meetingRecord.getPlaces();
     if (!isEqual(placeRecord, meetingDTO.places)) {
-      for await (const place of placeRecord) {
-        db.Place.destroy({
-          where: {
-            id: place.id,
-          },
-        });
-      }
+      await Promise.all(
+        placeRecord.map((place) => {
+          db.Place.destroy({
+            where: {
+              id: place.id,
+            },
+          });
+        })
+      );
 
-      for await (const place of meetingDTO.places) {
-        db.Place.create({
-          name: place.name,
-          latitude: place.latitude,
-          longitude: place.longitude,
-        }).then((place) => {
-          meetingRecord.addPlace(place);
-        });
-      }
+      await Promise.all(
+        meetingDTO.places.map((place) => {
+          db.Place.create({
+            name: place.name,
+            latitude: place.latitude,
+            longitude: place.longitude,
+          }).then((place) => {
+            meetingRecord.addPlace(place);
+          });
+        })
+      );
     }
 
     const users = await meetingRecord.getUsers();
@@ -164,13 +170,15 @@ export default class MeetingService {
       throw new Error("Meeting not found!");
     }
     const placeRecord = await meetingRecord.getPlaces();
-    for await (const place of placeRecord) {
-      db.Place.destroy({
-        where: {
-          id: place.id,
-        },
-      });
-    }
+    await Promise.all(
+      placeRecord.map((place) => {
+        db.Place.destroy({
+          where: {
+            id: place.id,
+          },
+        });
+      })
+    );
     await db.Meeting.destroy({
       where: {
         id: meetingId,
