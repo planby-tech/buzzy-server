@@ -1,24 +1,6 @@
-import moment from "moment-timezone";
 import db from "../db/models/index.js";
-
-const isEqual = (a, b) => {
-  if (a.length !== b.length) return false;
-  const uniqueValues = new Set([...a, ...b]);
-  for (const v of uniqueValues) {
-    const aCount = a.filter((e) => e === v).length;
-    const bCount = b.filter((e) => e === v).length;
-    if (aCount !== bCount) return false;
-  }
-  return true;
-};
-
-const KST = (date) => {
-  const dateToString = moment(date)
-    .utc()
-    .utcOffset("+09:00")
-    .format("YYYY-MM-DD/HH시 mm분");
-  return dateToString;
-};
+import { KST } from "../helpers/DateExchanger.js";
+import { isEqual } from "../helpers/EqualArrayChecker.js";
 
 export default class MeetingService {
   async createMeeting(groupId, meetingDTO) {

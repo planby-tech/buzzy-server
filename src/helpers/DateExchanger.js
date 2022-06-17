@@ -24,7 +24,4 @@ const UTC = (string) => {
   return stringToDate;
 };
 
-const date = new Date();
-
-console.log(KST(date));
-console.log(UTC(KST(date)));
+export { addHours, KST, UTC };

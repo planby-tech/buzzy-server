@@ -1,24 +1,13 @@
-import fs from "fs";
 import AWS from "aws-sdk";
 import dotenv from "dotenv";
 import path from "path";
 import db from "../db/models/index.js";
+import { isEqual } from "../helpers/EqualArrayChecker.js";
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
   throw new Error("⚠️  Couldn't find .env file  ⚠️");
 }
-
-const isEqual = (a, b) => {
-  if (a.length !== b.length) return false;
-  const uniqueValues = new Set([...a, ...b]);
-  for (const v of uniqueValues) {
-    const aCount = a.filter((e) => e === v).length;
-    const bCount = b.filter((e) => e === v).length;
-    if (aCount !== bCount) return false;
-  }
-  return true;
-};
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,

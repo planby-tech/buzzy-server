@@ -1,21 +1,5 @@
-import moment from "moment-timezone";
 import db from "../db/models/index.js";
-
-const addHours = (date, numOfHours) => {
-  date.setTime(date.getTime() + numOfHours * 60 * 60 * 1000);
-  return date;
-};
-
-const UTC = (string) => {
-  const date = string.split("/")[0];
-  const time =
-    string.split("/")[1].split(" ")[0].replace("시", "") +
-    ":" +
-    string.split("/")[1].split(" ")[1].replace("분", "") +
-    ":00:000";
-  const stringToDate = addHours(new Date(date + " " + time), 9);
-  return stringToDate;
-};
+import { addHours, UTC } from "../helpers/DateExchanger.js";
 
 export default class TagService {
   async tagging(userId, groupId, tagUid) {
