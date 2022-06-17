@@ -1,5 +1,5 @@
 import db from "../db/models/index.js";
-import { KST } from "../helpers/DateExchanger.js";
+import { KST } from "../helpers/DateConverter.js";
 import { isEqual } from "../helpers/EqualArrayChecker.js";
 
 export default class MeetingService {
