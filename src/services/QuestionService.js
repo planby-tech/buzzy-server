@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 
 export default class QuestionService {
   async generateQuestion(meetingId) {
+    // for Production code
     // const meetingRecord = await db.Meeting.findByPk(meetingId);
     // const questionRecord = await meetingRecord.getQuestions();
     // const count = await db.Question.count();
@@ -26,6 +27,7 @@ export default class QuestionService {
 
     // return questionRecord;
 
+    // for Exhibition code
     const meetingRecord = await db.Meeting.findByPk(meetingId);
     const activities = await meetingRecord.getActivities();
     const activityRecord = [];
