@@ -22,7 +22,7 @@ export default (app) => {
     [
       authJwt.verifyToken,
       verifyGroup.checkValidMember,
-      upload.array("photo", req.params.userId),
+      upload.array("photo", 1),
     ],
     createPost
   );
@@ -38,7 +38,7 @@ export default (app) => {
     [
       authJwt.verifyToken,
       verifyGroup.checkValidMember,
-      upload.array("photo", req.params.userId),
+      upload.array("photo", 1),
     ],
     updatePost
   );
