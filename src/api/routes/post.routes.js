@@ -6,6 +6,7 @@ import {
   updatePost,
   deletePost,
 } from "../controllers/PostController.js";
+import { upload } from "../modules/multer.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -18,7 +19,11 @@ export default (app) => {
 
   app.post(
     "/groups/:groupId/meetings/:meetingId/users/:userId/posts",
-    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    [
+      authJwt.verifyToken,
+      verifyGroup.checkValidMember,
+      upload.array("photo", req.params.userId),
+    ],
     createPost
   );
 
@@ -30,7 +35,11 @@ export default (app) => {
 
   app.put(
     "/groups/:groupId/meetings/:meetingId/posts/:postId",
-    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    [
+      authJwt.verifyToken,
+      verifyGroup.checkValidMember,
+      upload.array("photo", req.params.userId),
+    ],
     updatePost
   );
 

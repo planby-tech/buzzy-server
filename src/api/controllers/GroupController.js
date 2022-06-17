@@ -93,8 +93,9 @@ const findUsers = (req, res) => {
 
 const findMeetings = (req, res) => {
   const groupId = req.params.groupId;
+  const month = req.query.month;
   group
-    .findMeetings(groupId)
+    .findMeetings(groupId, month)
     .then((meetings) => {
       res.json(meetings);
     })

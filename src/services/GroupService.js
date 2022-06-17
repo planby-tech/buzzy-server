@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import db from "../db/models/index.js";
 
+const Op = db.Sequelize.Op;
+
 export default class GroupService {
   async createGroup(userId, groupDTO) {
     const groupRecord = await db.Group.create({
@@ -64,27 +66,23 @@ export default class GroupService {
     return userRecord;
   }
 
-  async findMeetings(groupId) {
-    const groupRecord = await db.Group.findByPk(groupId);
-    const meetings = await groupRecord.getMeetings();
-    const meetingRecord = [];
-    for (const meeting of meetings) {
-      await db.Meeting.findOne({
-        where: {
-          id: meeting.id,
+  async findMeetings(groupId, month) {
+    const meetingRecord = await db.Meeting.findAll({
+      where: {
+        groupId: groupId,
+        start: {
+          [Op.substring]: `-${month}-`,
         },
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
-        },
-        include: {
-          model: db.User,
-          as: "users",
-          attributes: ["name"],
-        },
-      }).then((meeting) => {
-        meetingRecord.push(meeting);
-      });
-    }
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      include: {
+        model: db.User,
+        as: "users",
+        attributes: ["name"],
+      },
+    });
     return meetingRecord;
   }
 

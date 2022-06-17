@@ -60,7 +60,7 @@ export default (app) => {
 
   app.get(
     "/users/:userId/groups/:groupId/items",
-    // [authJwt.verifyToken, verifyGroup.checkValidMember],
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
     findItems
   );
 };
