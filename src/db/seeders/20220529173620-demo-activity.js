@@ -83,6 +83,12 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          id: 1000,
+          category: "공통",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

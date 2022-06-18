@@ -19,11 +19,7 @@ export default (app) => {
 
   app.post(
     "/groups/:groupId/meetings/:meetingId/users/:userId/posts",
-    [
-      authJwt.verifyToken,
-      verifyGroup.checkValidMember,
-      upload.array("photo", 1),
-    ],
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
     createPost
   );
 
@@ -35,11 +31,7 @@ export default (app) => {
 
   app.put(
     "/groups/:groupId/meetings/:meetingId/posts/:postId",
-    [
-      authJwt.verifyToken,
-      verifyGroup.checkValidMember,
-      upload.array("photo", 1),
-    ],
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
     updatePost
   );
 

@@ -18,6 +18,14 @@ import flowerRouter from "./api/routes/flower.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
 
+const getMultipleRandom = (arr, num) => {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+};
+
+const arr = [1, 2, 3, 4];
+console.log(getMultipleRandom(arr, 2));
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);

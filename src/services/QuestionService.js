@@ -1,5 +1,10 @@
 import db from "../db/models/index.js";
 
+const getMultipleRandom = (arr, num) => {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+};
+
 const Op = db.Sequelize.Op;
 
 export default class QuestionService {
@@ -43,7 +48,17 @@ export default class QuestionService {
       },
     });
 
-    return questionRecord;
+    const realQuestions = [];
+    realQuestions.push(getMultipleRandom(questionRecord, 2));
+
+    const commonQuestions = await db.Question.findAll({
+      where: {
+        activityType: 1000,
+      },
+    });
+    realQuestions.concat(commonQuestions);
+
+    return realQuestions;
   }
 
   async excludeQuestion(meetingId, questionId) {
