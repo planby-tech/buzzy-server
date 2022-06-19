@@ -1,9 +1,5 @@
 import db from "../db/models/index.js";
-
-const getMultipleRandom = (arr, num) => {
-  const shuffled = [...arr].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, num);
-};
+import { getMultipleRandom } from "../helpers/ArrayManager.js";
 
 const Op = db.Sequelize.Op;
 

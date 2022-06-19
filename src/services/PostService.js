@@ -2,7 +2,7 @@ import AWS from "aws-sdk";
 import dotenv from "dotenv";
 import path from "path";
 import db from "../db/models/index.js";
-import { isEqual } from "../helpers/EqualArrayChecker.js";
+import { isEqual } from "../helpers/ArrayManager.js";
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {

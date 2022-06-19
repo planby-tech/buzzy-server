@@ -1,6 +1,6 @@
 import db from "../db/models/index.js";
 import { KST } from "../helpers/DateConverter.js";
-import { isEqual } from "../helpers/EqualArrayChecker.js";
+import { isEqual } from "../helpers/ArrayManager.js";
 
 export default class MeetingService {
   async createMeeting(groupId, meetingDTO) {
