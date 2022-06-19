@@ -6,7 +6,6 @@ import {
   updatePost,
   deletePost,
 } from "../controllers/PostController.js";
-import { upload } from "../modules/multer.js";
 
 export default (app) => {
   app.use((req, res, next) => {

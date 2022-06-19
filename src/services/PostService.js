@@ -1,4 +1,3 @@
-import AWS from "aws-sdk";
 import dotenv from "dotenv";
 import path from "path";
 import db from "../db/models/index.js";
@@ -12,25 +11,14 @@ if (envFound.error) {
   }
 }
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-});
-
-const uploadFile = (fileBlob, postId) => {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME,
-    Key: `${postId}/${fileName}`,
-    Body: fileBlob,
-  };
-  s3.upload(params, (s3Err, data) => {
-    if (s3Err) throw s3Err;
-    return data.Location;
-  });
-};
-
 export default class PostService {
   async createPost(meetingId, userId, postDTO) {
+    await db.Meeting.increment(
+      { postNumber: 1 },
+      {
+        where: { id: meetingId },
+      }
+    ); // Needs some exception processing
     const meetingRecord = await db.Meeting.findByPk(meetingId);
     const userRecord = await db.User.findByPk(userId);
     const postRecord = await db.Post.create({
@@ -40,39 +28,23 @@ export default class PostService {
     });
 
     for await (const questionAnswer of postDTO.questionAnswers) {
-      await db.Question.findOne({
+      const question = await db.Question.findOne({
         where: {
           content: questionAnswer.question,
         },
-      }).then((question) => {
-        postRecord.addQuestion(question);
-        db.Answer.create({
-          content: questionAnswer.answer,
-        }).then((answer) => {
-          postRecord.addAnswer(answer);
-          userRecord.addAnswer(answer);
-          question.addAnswer(answer);
-        });
       });
+      await postRecord.addQuestion(question);
+      const answer = await db.Answer.create({
+        content: questionAnswer.answer,
+      });
+      await postRecord.addAnswer(answer);
+      await userRecord.addAnswer(answer);
+      await question.addAnswer(answer);
     }
 
-    // await Promise.all(
-    //   postDTO.images.map((image) => {
-    //     const url = uploadFile(image, postId);
-    //     db.Image.create({
-    //       url: url,
-    //     }).then((image) => {
-    //       postRecord.addImage(image);
-    //       userRecord.addImage(image);
-    //     });
-    //   })
-    // );
-
-    await db.Meeting.increment("postNumber");
-    meetingRecord.postNumber += 1;
     const users = await meetingRecord.getUsers();
 
-    if (meetingRecord.postNumber === users.length) {
+    if (meetingRecord.postNumber >= users.length) {
       return { meeting: meetingRecord, post: postRecord, status: 1 };
     } else {
       return { meeting: meetingRecord, post: postRecord, status: 0 };
@@ -97,6 +69,7 @@ export default class PostService {
   }
 
   async updatePost(postId, postDTO) {
+    // Should be matched with createPost
     const postRecord = await db.Post.update(
       { title: postDTO.title },
       { where: { id: postId } }
