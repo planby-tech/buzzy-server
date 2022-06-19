@@ -78,6 +78,10 @@ export default class MeetingService {
           model: db.Comment,
           as: "comments",
         },
+        {
+          model: db.Comment,
+          as: "images",
+        },
       ],
     });
     if (!meetingRecord) {
