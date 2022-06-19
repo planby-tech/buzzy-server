@@ -4,9 +4,12 @@ import { S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import path from "path";
 
-const envFound = dotenv.config({ path: path.resolve("../.env") });
+const envFound = dotenv.config();
 if (envFound.error) {
-  throw new Error("⚠️  Couldn't find .env file  ⚠️");
+  const envFound2 = dotenv.config({ path: path.resolve("../.env") });
+  if (envFound2.error) {
+    throw new Error("⚠️  Couldn't find .env file  ⚠️");
+  }
 }
 
 const s3 = new S3Client({
