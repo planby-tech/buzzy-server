@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
         foreignKey: "flowerId",
       });
       models.Flower.hasMany(models.Meeting, {
+        as: "meetings",
         foreignKey: "flowerId",
       });
     }

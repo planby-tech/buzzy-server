@@ -16,9 +16,11 @@ export default (sequelize, DataTypes) => {
         foreignKey: "postId",
       });
       models.Post.hasMany(models.Answer, {
+        as: "answers",
         foreignKey: "postId",
       });
       models.Post.hasMany(models.Image, {
+        as: "images",
         foreignKey: "postId",
       });
     }

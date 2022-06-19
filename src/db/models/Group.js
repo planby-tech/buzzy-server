@@ -20,12 +20,15 @@ export default (sequelize, DataTypes) => {
         foreignKey: "groupId",
       });
       models.Group.hasMany(models.Meeting, {
+        as: "meetings",
         foreignKey: "groupId",
       });
       models.Group.hasMany(models.Place, {
+        as: "places",
         foreignKey: "groupId",
       });
       models.Group.hasMany(models.Image, {
+        as: "images",
         foreignKey: "groupId",
       });
     }

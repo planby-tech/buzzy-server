@@ -15,6 +15,7 @@ export default (sequelize, DataTypes) => {
         foreignKey: "questionId",
       });
       models.Question.hasMany(models.Answer, {
+        as: "answers",
         foreignKey: "questionId",
       });
     }
