@@ -5,7 +5,7 @@ const flowerArray = [1, 2, 1, 3, 2, 3, 1, 2, 3];
 
 export default class FlowerService {
   async generateFlower(groupId, meeting) {
-    const groupRecord = await db.findByPk(groupId);
+    const groupRecord = await db.Group.findByPk(groupId);
     const meetingRecord = meeting;
 
     const flowers = await groupRecord.getFlowers();

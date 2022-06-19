@@ -26,7 +26,7 @@ module.exports = {
         {
           id: 3,
           uid: "04F21BFA9D7180",
-          name: "",
+          name: "국회의사당",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -35,7 +35,7 @@ module.exports = {
         {
           id: 4,
           uid: "042D8232697380",
-          name: "",
+          name: "경복궁",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -44,7 +44,7 @@ module.exports = {
         {
           id: 5,
           uid: "04AD1AFA9D7180",
-          name: "",
+          name: "남산타워",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -53,7 +53,7 @@ module.exports = {
         {
           id: 6,
           uid: "04A21AFA9D7180",
-          name: "",
+          name: "호미곶 상생의 손",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -62,7 +62,7 @@ module.exports = {
         {
           id: 7,
           uid: "042F9832697380",
-          name: "",
+          name: "제주공항",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -71,7 +71,7 @@ module.exports = {
         {
           id: 8,
           uid: "04BC1AFA9D7180",
-          name: "",
+          name: "첨성대",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -80,7 +80,7 @@ module.exports = {
         {
           id: 9,
           uid: "042F9732697380",
-          name: "",
+          name: "광화문",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),
@@ -89,7 +89,7 @@ module.exports = {
         {
           id: 10,
           uid: "045932FA9D7180",
-          name: "",
+          name: "63빌딩",
           latitude: 0,
           longitude: 0,
           createdAt: new Date(),

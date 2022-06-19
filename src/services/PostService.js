@@ -32,24 +32,26 @@ export default class PostService {
     const userRecord = await db.User.findByPk(userId);
     const postRecord = await db.Post.create({
       title: meetingRecord.title,
+      meetingId: meetingId,
+      userId: userId,
     });
-    await meetingRecord.addPost(postRecord);
-    await userRecord.addPost(postRecord);
 
-    await Promise.all(
-      postDTO.questionAnswers.map((questionAnswer) => {
-        db.Question.findByPk(questionAnswer.question).then((question) => {
-          postRecord.addQuestion(question);
-          db.Answer.create({
-            content: questionAnswer.answer,
-          }).then((answer) => {
-            postRecord.addAnswer(answer);
-            userRecord.addAnswer(answer);
-            question.addAnswer(answer);
-          });
+    for await (const questionAnswer of postDTO.questionAnswers) {
+      await db.Question.findOne({
+        where: {
+          content: questionAnswer.question,
+        },
+      }).then((question) => {
+        postRecord.addQuestion(question);
+        db.Answer.create({
+          content: questionAnswer.answer,
+        }).then((answer) => {
+          postRecord.addAnswer(answer);
+          userRecord.addAnswer(answer);
+          question.addAnswer(answer);
         });
-      })
-    );
+      });
+    }
 
     // await Promise.all(
     //   postDTO.images.map((image) => {
@@ -63,7 +65,11 @@ export default class PostService {
     //   })
     // );
 
-    await postRecord.increment("postNumber");
+    await db.Meeting.increment("postNumber", {
+      by: 1,
+      where: { id: meetingRecord.id },
+    });
+    meetingRecord.postNumber = meetingRecord.postNumber + 1;
     const users = await meetingRecord.getUsers();
 
     if (meetingRecord.postNumber === users.length) {

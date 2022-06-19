@@ -48,15 +48,15 @@ export default class QuestionService {
       },
     });
 
-    const realQuestions = [];
-    realQuestions.push(getMultipleRandom(questionRecord, 2));
+    let realQuestions = getMultipleRandom(questionRecord, 2);
 
     const commonQuestions = await db.Question.findAll({
       where: {
         activityType: 1000,
       },
     });
-    realQuestions.concat(commonQuestions);
+
+    realQuestions = realQuestions.concat(commonQuestions);
 
     return realQuestions;
   }
