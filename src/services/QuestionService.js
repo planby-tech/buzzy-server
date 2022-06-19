@@ -44,17 +44,17 @@ export default class QuestionService {
       },
     });
 
-    let realQuestions = getMultipleRandom(questionRecord, 2);
+    let selectedQuestions = getMultipleRandom(questionRecord, 2);
 
-    const commonQuestions = await db.Question.findAll({
+    let commonQuestions = await db.Question.findAll({
       where: {
         activityType: 1000,
       },
     });
 
-    realQuestions = realQuestions.concat(commonQuestions);
+    selectedQuestions = selectedQuestions.concat(commonQuestions);
 
-    return realQuestions;
+    return selectedQuestions;
   }
 
   async excludeQuestion(meetingId, questionId) {

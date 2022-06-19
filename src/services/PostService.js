@@ -44,7 +44,7 @@ export default class PostService {
 
     const users = await meetingRecord.getUsers();
 
-    if (meetingRecord.postNumber >= users.length) {
+    if (meetingRecord.postNumber === users.length) {
       return { meeting: meetingRecord, post: postRecord, status: 1 };
     } else {
       return { meeting: meetingRecord, post: postRecord, status: 0 };

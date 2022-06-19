@@ -9,7 +9,7 @@ export default class FlowerService {
     const meetingRecord = meeting;
 
     const flowers = await groupRecord.getFlowers();
-    const flowerSize = flowerArray[flowers.length / flowerArray.length];
+    const flowerSize = flowerArray[flowers.length % flowerArray.length];
 
     const exceptFlower = [];
 
