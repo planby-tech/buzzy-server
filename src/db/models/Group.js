@@ -25,6 +25,9 @@ export default (sequelize, DataTypes) => {
       models.Group.hasMany(models.Place, {
         foreignKey: "groupId",
       });
+      models.Group.hasMany(models.Image, {
+        foreignKey: "groupId",
+      });
     }
   }
   Group.init(

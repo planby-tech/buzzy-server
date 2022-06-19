@@ -20,7 +20,7 @@ const s3 = new S3Client({
   },
 });
 
-const upload = multer({
+const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
@@ -30,12 +30,12 @@ const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: (req, file, cb) => {
-      cb(null, `${Date.now()}_${file.originalname}`);
+      cb(null, `Posts/${req.params.postId}/${Date.now()}_${file.originalname}`);
     },
   }),
 });
 
-export { upload };
+export { uploadPostImage };
 
 // multer for storing at disk storage
 // const storage = multer.diskStorage({
