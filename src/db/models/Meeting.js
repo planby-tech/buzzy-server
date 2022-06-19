@@ -31,15 +31,19 @@ export default (sequelize, DataTypes) => {
         foreignKey: "flowerId",
       });
       models.Meeting.hasMany(models.Place, {
+        as: "places",
         foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Post, {
+        as: "posts",
         foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Comment, {
+        as: "comments",
         foreignKey: "meetingId",
       });
       models.Meeting.hasMany(models.Image, {
+        as: "images",
         foreignKey: "meetingId",
       });
     }

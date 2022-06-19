@@ -233,22 +233,30 @@ export default class MeetingService {
         },
         {
           model: db.Place,
-          as: "posts",
+          as: "places",
         },
         {
           model: db.Comment,
           as: "comments",
         },
+        {
+          model: db.Post,
+          as: "posts",
+        },
+        {
+          model: db.Image,
+          as: "images",
+        },
       ],
     });
+
     if (!meetingRecord) {
       throw new Error("Meeting not found!");
     }
-    
-    const posts = await meetingRecord.getPosts();
+
     const postRecord = [];
 
-    for await (const post of posts) {
+    for await (const post of meetingRecord.posts) {
       const questionRecord = [];
       const userRecord = await post.getUser();
       const answerRecord = await post.getAnswers();
@@ -267,7 +275,9 @@ export default class MeetingService {
       });
     }
 
-    return { meetingRecord, postRecord };
+    console.log(meetingRecord);
+
+    return { meeting: meetingRecord, posts: postRecord };
   }
 
   async findComments(meetingId) {
