@@ -95,6 +95,14 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          uid: "012DD856",
+          name: "역삼역 4번 출구",
+          latitude: 37.500516238601826,
+          longitude: 127.03515980477283,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
