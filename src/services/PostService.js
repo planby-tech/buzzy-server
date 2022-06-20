@@ -3,9 +3,9 @@ import path from "path";
 import db from "../db/models/index.js";
 import { isEqual } from "../helpers/ArrayManager.js";
 
-const envFound = dotenv.config();
+const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
-  const envFound2 = dotenv.config({ path: path.resolve("../.env") });
+  const envFound2 = dotenv.config();
   if (envFound2.error) {
     throw new Error("⚠️  Couldn't find .env file  ⚠️");
   }

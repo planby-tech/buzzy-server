@@ -13,7 +13,6 @@ if (envFound.error) {
 
 export default class ImageService {
   async uploadPost(postId, imageDTO) {
-    console.log(imageDTO);
     const postRecord = await db.Post.findByPk(postId);
     const userRecord = await db.User.findByPk(postRecord.userId);
     const meetingRecord = await db.Meeting.findByPk(postRecord.meetingId);
@@ -24,9 +23,9 @@ export default class ImageService {
       const img = await db.Image.create({
         location: image.location,
       });
-      imageRecord.push(img.id);
+      imageRecord.push(img);
     }
-    console.log(imageRecord);
+
     await postRecord.addImages(imageRecord);
     await userRecord.addImages(imageRecord);
     await meetingRecord.addImages(imageRecord);

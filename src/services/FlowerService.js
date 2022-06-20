@@ -84,7 +84,6 @@ export default class FlowerService {
       const questionRecord = [];
       const userRecord = await post.getUser();
       const answerRecord = await post.getAnswers();
-      const imageRecord = await post.getImages();
 
       for await (const answer of answerRecord) {
         const question = await db.Question.findByPk(answer.questionId);
@@ -95,7 +94,6 @@ export default class FlowerService {
         user: userRecord.name,
         questions: questionRecord,
         answers: answerRecord,
-        images: imageRecord,
       });
     }
 

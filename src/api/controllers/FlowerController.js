@@ -11,6 +11,7 @@ const generateFlower = (req, res) => {
       res.json({
         message: "Flower was generated successfully!",
         flower: flower,
+        post: req.body.post,
       });
     })
     .catch((err) => {

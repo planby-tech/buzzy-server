@@ -23,9 +23,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const envFound = dotenv.config();
+const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
-  const envFound2 = dotenv.config({ path: path.resolve("../.env") });
+  const envFound2 = dotenv.config();
   if (envFound2.error) {
     throw new Error("⚠️  Couldn't find .env file  ⚠️");
   }
@@ -45,7 +45,7 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 // root
 app.get("/", (req, res) => {

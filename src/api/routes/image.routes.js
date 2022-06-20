@@ -12,12 +12,14 @@ export default (app) => {
     next();
   });
 
+  // cannot send response
   app.post(
     "/posts/:postId/images",
     uploadPostImage.array("post", 10),
     uploadPost
   );
 
+  // get image from aws s3
   app.get(
     "/groups/:groupId/flowers/:flowerId/images",
     [authJwt.verifyToken, verifyGroup.checkValidMember],

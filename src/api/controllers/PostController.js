@@ -18,6 +18,7 @@ const createPost = (req, res) => {
           status: status,
         });
       } else {
+        req.body.post = post;
         req.body.meeting = meeting;
         generateFlower(req, res);
       }
