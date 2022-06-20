@@ -25,7 +25,7 @@ const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
-    acl: "bucket-owner-full-control", // Should change the access option (by using server side request)
+    acl: "public-read", // Should change the acl option to "bucket-owner-full-control"
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -44,39 +44,12 @@ const bucketParamsExample = {
   Body: "BODY",
 };
 
-const run = async (key, body) => {
+const getImages = async (key, body) => {
   const bucketParams = {
     Bucket: process.env.S3_BUCKET_NAME,
     Key: key,
     Body: body,
   };
-
-  // Create an S3 bucket.
-  // try {
-  //   console.log(`Creating bucket ${bucketParams.Bucket}`);
-  //   const data = await s3.send(
-  //     new CreateBucketCommand({ Bucket: bucketParams.Bucket })
-  //   );
-  //   return data; // For unit tests.
-  //   console.log(`Waiting for "${bucketParams.Bucket}" bucket creation...\n`);
-  // } catch (err) {
-  //   console.log("Error creating bucket", err);
-  // }
-
-  // Put the object in the S3 bucket.
-  // try {
-  //   console.log(`Putting object "${bucketParams.Key}" in bucket`);
-  //   const data = await s3.send(
-  //     new PutObjectCommand({
-  //       Bucket: bucketParams.Bucket,
-  //       Key: bucketParams.Key,
-  //       Body: bucketParams.Body,
-  //     })
-  //   );
-  //   return data; // For unit tests.
-  // } catch (err) {
-  //   console.log("Error putting object", err);
-  // }
 
   // Create a presigned URL.
   try {
@@ -87,48 +60,15 @@ const run = async (key, body) => {
     const signedUrl = await getSignedUrl(s3, command, {
       expiresIn: 3600,
     });
-    console.log(
-      `\nGetting "${bucketParams.Key}" using signedUrl with body "${bucketParams.Body}" in v3`
-    );
     console.log(signedUrl);
     const response = await fetch(signedUrl);
-    // console.log(
-    //   `\nResponse returned by signed URL: ${await response.text()}\n`
-    // );
+    console.log(response);
   } catch (err) {
     console.log("Error creating presigned URL", err);
   }
-
-  // Delete the object.
-  // try {
-  //   console.log(`\nDeleting object "${bucketParams.Key}"} from bucket`);
-  //   const data = await s3.send(
-  //     new DeleteObjectCommand({
-  //       Bucket: bucketParams.Bucket,
-  //       Key: bucketParams.Key,
-  //     })
-  //   );
-  //   return data; // For unit tests.
-  // } catch (err) {
-  //   console.log("Error deleting object", err);
-  // }
-
-  // Delete the S3 bucket.
-  // try {
-  //   console.log(`\nDeleting bucket ${bucketParams.Bucket}`);
-  //   const data = await s3.send(
-  //     new DeleteBucketCommand({
-  //       Bucket: bucketParams.Bucket,
-  //       Key: bucketParams.Key,
-  //     })
-  //   );
-  //   return data; // For unit tests.
-  // } catch (err) {
-  //   console.log("Error deleting object", err);
-  // }
 };
 
-run("Posts/1/test_image.jpg", "post");
+// getImages("Posts/1/test_image.jpg", "post");
 
 export { uploadPostImage };
 
@@ -143,3 +83,59 @@ export { uploadPostImage };
 // });
 
 // const upload = multer({ storage: storage });
+
+// AWS S3 using sdk
+// Create an S3 bucket.
+// try {
+//   console.log(`Creating bucket ${bucketParams.Bucket}`);
+//   const data = await s3.send(
+//     new CreateBucketCommand({ Bucket: bucketParams.Bucket })
+//   );
+//   return data; // For unit tests.
+//   console.log(`Waiting for "${bucketParams.Bucket}" bucket creation...\n`);
+// } catch (err) {
+//   console.log("Error creating bucket", err);
+// }
+
+// Put the object in the S3 bucket.
+// try {
+//   console.log(`Putting object "${bucketParams.Key}" in bucket`);
+//   const data = await s3.send(
+//     new PutObjectCommand({
+//       Bucket: bucketParams.Bucket,
+//       Key: bucketParams.Key,
+//       Body: bucketParams.Body,
+//     })
+//   );
+//   return data; // For unit tests.
+// } catch (err) {
+//   console.log("Error putting object", err);
+// }
+
+// Delete the object.
+// try {
+//   console.log(`\nDeleting object "${bucketParams.Key}"} from bucket`);
+//   const data = await s3.send(
+//     new DeleteObjectCommand({
+//       Bucket: bucketParams.Bucket,
+//       Key: bucketParams.Key,
+//     })
+//   );
+//   return data; // For unit tests.
+// } catch (err) {
+//   console.log("Error deleting object", err);
+// }
+
+// Delete the S3 bucket.
+// try {
+//   console.log(`\nDeleting bucket ${bucketParams.Bucket}`);
+//   const data = await s3.send(
+//     new DeleteBucketCommand({
+//       Bucket: bucketParams.Bucket,
+//       Key: bucketParams.Key,
+//     })
+//   );
+//   return data; // For unit tests.
+// } catch (err) {
+//   console.log("Error deleting object", err);
+// }

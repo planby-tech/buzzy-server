@@ -68,7 +68,7 @@ export default class TagService {
         },
       ],
       users: [userId],
-      activities: [12],
+      activities: [999],
       isTagged: tagRecord.id,
     };
 
