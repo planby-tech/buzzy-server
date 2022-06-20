@@ -1,8 +1,17 @@
 import multer from "multer";
 import multerS3 from "multer-s3";
-import { S3Client } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import path from "path";
+import {
+  CreateBucketCommand,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  DeleteBucketCommand,
+} from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import fetch from "node-fetch";
+import { s3 } from "../../helpers/S3Client.js";
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
@@ -12,19 +21,11 @@ if (envFound.error) {
   }
 }
 
-const s3 = new S3Client({
-  region: process.env.S3_REGION,
-  credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  },
-});
-
 const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
-    acl: "public-read", // Should change the access option (by using server side request)
+    acl: "bucket-owner-full-control", // Should change the access option (by using server side request)
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -34,6 +35,100 @@ const uploadPostImage = multer({
     },
   }),
 });
+
+// Set parameters
+// Create a random name for the Amazon Simple Storage Service (Amazon S3) bucket and key
+const bucketParamsExample = {
+  Bucket: `test-bucket-${Math.ceil(Math.random() * 10 ** 10)}`,
+  Key: `test-object-${Math.ceil(Math.random() * 10 ** 10)}`,
+  Body: "BODY",
+};
+
+const run = async (key, body) => {
+  const bucketParams = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: key,
+    Body: body,
+  };
+
+  // Create an S3 bucket.
+  // try {
+  //   console.log(`Creating bucket ${bucketParams.Bucket}`);
+  //   const data = await s3.send(
+  //     new CreateBucketCommand({ Bucket: bucketParams.Bucket })
+  //   );
+  //   return data; // For unit tests.
+  //   console.log(`Waiting for "${bucketParams.Bucket}" bucket creation...\n`);
+  // } catch (err) {
+  //   console.log("Error creating bucket", err);
+  // }
+
+  // Put the object in the S3 bucket.
+  // try {
+  //   console.log(`Putting object "${bucketParams.Key}" in bucket`);
+  //   const data = await s3.send(
+  //     new PutObjectCommand({
+  //       Bucket: bucketParams.Bucket,
+  //       Key: bucketParams.Key,
+  //       Body: bucketParams.Body,
+  //     })
+  //   );
+  //   return data; // For unit tests.
+  // } catch (err) {
+  //   console.log("Error putting object", err);
+  // }
+
+  // Create a presigned URL.
+  try {
+    // Create the command.
+    const command = new GetObjectCommand(bucketParams);
+
+    // Create the presigned URL.
+    const signedUrl = await getSignedUrl(s3, command, {
+      expiresIn: 3600,
+    });
+    console.log(
+      `\nGetting "${bucketParams.Key}" using signedUrl with body "${bucketParams.Body}" in v3`
+    );
+    console.log(signedUrl);
+    const response = await fetch(signedUrl);
+    // console.log(
+    //   `\nResponse returned by signed URL: ${await response.text()}\n`
+    // );
+  } catch (err) {
+    console.log("Error creating presigned URL", err);
+  }
+
+  // Delete the object.
+  // try {
+  //   console.log(`\nDeleting object "${bucketParams.Key}"} from bucket`);
+  //   const data = await s3.send(
+  //     new DeleteObjectCommand({
+  //       Bucket: bucketParams.Bucket,
+  //       Key: bucketParams.Key,
+  //     })
+  //   );
+  //   return data; // For unit tests.
+  // } catch (err) {
+  //   console.log("Error deleting object", err);
+  // }
+
+  // Delete the S3 bucket.
+  // try {
+  //   console.log(`\nDeleting bucket ${bucketParams.Bucket}`);
+  //   const data = await s3.send(
+  //     new DeleteBucketCommand({
+  //       Bucket: bucketParams.Bucket,
+  //       Key: bucketParams.Key,
+  //     })
+  //   );
+  //   return data; // For unit tests.
+  // } catch (err) {
+  //   console.log("Error deleting object", err);
+  // }
+};
+
+run("Posts/1/test_image.jpg", "post");
 
 export { uploadPostImage };
 
