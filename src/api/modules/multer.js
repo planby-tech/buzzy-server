@@ -11,7 +11,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import fetch from "node-fetch";
-import { s3 } from "../../helpers/S3Client.js";
+import { s3 } from "../../helpers/s3Client.js";
 
 const envFound = dotenv.config({ path: path.resolve("../.env") });
 if (envFound.error) {
