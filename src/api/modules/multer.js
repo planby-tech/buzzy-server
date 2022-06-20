@@ -24,7 +24,7 @@ const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
-    acl: "bucket-owner-full-control",
+    acl: "public-read", // Should change the access option (by using server side request)
     contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });

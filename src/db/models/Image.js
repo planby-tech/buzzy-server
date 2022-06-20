@@ -20,7 +20,7 @@ export default (sequelize, DataTypes) => {
   }
   Image.init(
     {
-      url: DataTypes.STRING,
+      location: DataTypes.STRING,
     },
     {
       sequelize,

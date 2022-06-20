@@ -18,4 +18,20 @@ const generateFlower = (req, res) => {
     });
 };
 
-export { generateFlower };
+const findPosts = (req, res) => {
+  const groupId = req.params.groupId;
+  const flowerId = req.params.flowerId;
+  flower
+    .findPosts(groupId, flowerId)
+    .then(({ meeting, posts }) => {
+      res.json({
+        meeting: meeting,
+        posts: posts,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export { generateFlower, findPosts };

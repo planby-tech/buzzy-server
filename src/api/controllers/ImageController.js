@@ -18,4 +18,17 @@ const uploadPost = (req, res) => {
     });
 };
 
-export { uploadPost };
+const readPost = (req, res) => {
+  const groupId = req.params.groupId;
+  const flowerId = req.params.flowerId;
+  image
+    .readPost(groupId, flowerId)
+    .then((images) => {
+      res.json(images);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export { uploadPost, readPost };

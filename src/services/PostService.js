@@ -87,7 +87,7 @@ export default class PostService {
     const images = await postRecord.getImages();
     const imageRecord = [];
     for (let i = 0; i < images.length; i++) {
-      imageRecord.push(images[i].url);
+      imageRecord.push(images[i].location);
     }
     if (!isEqual(imageRecord, postDTO.images)) {
       await Promise.all(
@@ -102,7 +102,7 @@ export default class PostService {
       await Promise.all(
         postDTO.images.map((image) => {
           db.Image.create({
-            url: image,
+            location: image,
           }).then((image) => {
             postRecord.addImage(image);
             userRecord.addImage(image);

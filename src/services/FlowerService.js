@@ -36,4 +36,69 @@ export default class FlowerService {
 
     return flowerRecord;
   }
+
+  async findPosts(groupId, flowerId) {
+    const meetingRecord = await db.Meeting.findOne({
+      where: {
+        groupId: groupId,
+        flowerId: flowerId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: db.Activity,
+          as: "activities",
+        },
+        {
+          model: db.User,
+          as: "users",
+        },
+        {
+          model: db.Place,
+          as: "places",
+        },
+        {
+          model: db.Comment,
+          as: "comments",
+        },
+        {
+          model: db.Post,
+          as: "posts",
+        },
+        {
+          model: db.Image,
+          as: "images",
+        },
+      ],
+    });
+
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+
+    const postRecord = [];
+
+    for await (const post of meetingRecord.posts) {
+      const questionRecord = [];
+      const userRecord = await post.getUser();
+      const answerRecord = await post.getAnswers();
+      const imageRecord = await post.getImages();
+
+      for await (const answer of answerRecord) {
+        const question = await db.Question.findByPk(answer.questionId);
+        questionRecord.push(question);
+      }
+
+      postRecord.push({
+        user: userRecord.name,
+        questions: questionRecord,
+        answers: answerRecord,
+        images: imageRecord,
+      });
+    }
+
+    return { meeting: meetingRecord, posts: postRecord };
+  }
 }

@@ -99,21 +99,6 @@ const findActivities = (req, res) => {
     });
 };
 
-const findPosts = (req, res) => {
-  const meetingId = req.params.meetingId;
-  meeting
-    .findPosts(meetingId)
-    .then(({ meeting, posts }) => {
-      res.json({
-        meeting: meeting,
-        posts: posts,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
-};
-
 const findComments = (req, res) => {
   const meetingId = req.params.meetingId;
   meeting
@@ -134,6 +119,5 @@ export {
   findPlaces,
   findUsers,
   findActivities,
-  findPosts,
   findComments,
 };

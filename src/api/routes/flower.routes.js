@@ -1,6 +1,6 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
-import {} from "../controllers/FlowerController.js";
+import { findPosts } from "../controllers/FlowerController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -10,4 +10,10 @@ export default (app) => {
     );
     next();
   });
+
+  app.get(
+    "/groups/:groupId/flowers/:flowerId/posts",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findPosts
+  );
 };

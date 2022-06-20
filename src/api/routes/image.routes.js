@@ -1,5 +1,7 @@
 import { uploadPostImage } from "../modules/multer.js";
-import { uploadPost } from "../controllers/ImageController.js";
+import authJwt from "../middleware/AuthJwt.js";
+import verifyGroup from "../middleware/VerifyGroup.js";
+import { uploadPost, readPost } from "../controllers/ImageController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -14,5 +16,11 @@ export default (app) => {
     "/posts/:postId/images",
     uploadPostImage.array("post", 10),
     uploadPost
+  );
+
+  app.get(
+    "/groups/:groupId/flowers/:flowerId/images",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    readPost
   );
 };

@@ -20,7 +20,7 @@ const UTC = (string) => {
     ":" +
     string.split("/")[1].split(" ")[1].replace("분", "") +
     ":00:000";
-  const stringToDate = addHours(-9, new Date(date + " " + time));
+  const stringToDate = addHours(new Date(date + " " + time), -9);
   return stringToDate;
 };
 

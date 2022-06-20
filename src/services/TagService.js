@@ -1,9 +1,9 @@
+import moment from "moment-timezone";
 import db from "../db/models/index.js";
 import { addHours, UTC } from "../helpers/DateConverter.js";
 
 export default class TagService {
   async tagging(userId, groupId, tagUid) {
-    console.log(tagUid);
     const tagRecord = await db.Tag.findOne({
       where: {
         uid: tagUid,
@@ -24,8 +24,13 @@ export default class TagService {
       const endDate = moment(UTC(meeting.end));
 
       if (compareDate.isBetween(startDate, endDate)) {
-        await meeting.increment("tagNumber");
-        const tagNumber = meeting.tagNumber;
+        await db.Meeting.increment(
+          { tagNumber: 1 },
+          {
+            where: { id: meeting.id },
+          }
+        );
+        const tagNumber = meeting.tagNumber + 1;
         const users = await meeting.getUsers();
 
         if (groupRecord.hasTag(tagRecord)) {
